@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.PortableExecutable;
+using Visma.Timelogger.Application.RequestModels;
 
 namespace Visma.Timelogger.Api.Controllers
 {
@@ -19,7 +19,11 @@ namespace Visma.Timelogger.Api.Controllers
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<string>> Create([FromBody] CreateProjectRequestModel request, [FromHeader] ApiHeaders apiHeaders)
+        public async Task<ActionResult<string>> Create([FromBody] CreateProjectRequestModel request)
+        {
+            await _mediator.Send(request);
+            return StatusCode(202);
+        }
 
 
     }
