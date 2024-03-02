@@ -1,4 +1,4 @@
-﻿namespace Persisence.Entities
+﻿namespace Visma.Timelogger.Domain.Entities
 {
     public class Project
     {

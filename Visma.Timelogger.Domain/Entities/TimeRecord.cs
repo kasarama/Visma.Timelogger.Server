@@ -1,4 +1,4 @@
-﻿namespace Persistence.Entities
+﻿namespace Visma.Timelogger.Domain.Entities
 {
     public class TimeRecord
     {
