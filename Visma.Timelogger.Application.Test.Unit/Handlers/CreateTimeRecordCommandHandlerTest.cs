@@ -1,9 +1,7 @@
 using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.ComponentModel.DataAnnotations;
 using Visma.Timelogger.Application.Contracts;
 using Visma.Timelogger.Application.Exceptions;
 using Visma.Timelogger.Application.Features.CreateTimeRecord;
@@ -213,7 +211,6 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                  .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
                  .ReturnsAsync(true);
 
-
             _mapperMock.Setup(mapper => mapper
                 .Map<TimeRecord>(request))
                 .Returns(It.IsAny<TimeRecord>());
@@ -236,7 +233,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenInvalidDuration_WhenHandlingCommand_ThrowsException()
+        public void GivenInvalidRequest_WhenHandlingCommand_ThrowsException()
         {
             var startTime = _now;
             var userId = _existingProject.FreelancerId;
@@ -250,21 +247,39 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 StartTime = startTime
             };
             CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
+
+            _validatorMock.Setup(val => val
+                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
+                 .ThrowsAsync(new RequestValidationException(new FluentValidation.Results.ValidationResult()));
+
             _projectRepositoryMock.Setup(repo => repo
                 .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
                 .ReturnsAsync(_existingProject);
 
-            _validatorMock.Setup(val => val
-                .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
-                .ThrowsAsync(new RequestValidationException(new FluentValidation.Results.ValidationResult()));
+            _mapperMock.Setup(mapper => mapper
+                .Map<TimeRecord>(request))
+                .Returns(It.IsAny<TimeRecord>());
+
+            _timeRecordRepositoryMock.Setup(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()))
+                .ReturnsAsync(It.IsAny<TimeRecord>());
 
             Assert.ThrowsAsync<RequestValidationException>(async () => await _SUT.Handle(request, CancellationToken.None));
+            _validatorMock.Verify(val => val
+                .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
+            _projectRepositoryMock
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Never);
+            _mapperMock
+                .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
+            _timeRecordRepositoryMock.Verify(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
         }
 
+
         [Test]
-        public void GivenInvalidStartTime_WhenHandlingCommand_ThrowsException()
+        public void GivenInvalidProjectData_WhenHandlingCommand_ThrowsException()
         {
-            var startTime = _now.AddDays(5);
+            var startTime = _now;
             var userId = _existingProject.FreelancerId;
             var projectId = _existingProject.Id;
             var duration = 5;
@@ -276,38 +291,120 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 StartTime = startTime
             };
             CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
-            _projectRepositoryMock.Setup(repo => repo
-                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
-                .ReturnsAsync(_existingProject);
+
             _validatorMock.Setup(val => val
-                .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
-                .ReturnsAsync(true);
+                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
+                 .ReturnsAsync(true);
 
-            var x = Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
-            Assert.Pass();
-        }
-
-        [Test]
-        public void _GivenInvalidStartTime_WhenHandlingCommand_ThrowsException()
-        {
-            //Project? project = null;
-            var startTime = _now.AddDays(5);
-            var userId = _existingProject.FreelancerId;
-            var projectId = _existingProject.Id;
-            var duration = 5;
-
-            CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
-            {
-                ProjectId = projectId,
-                DurationMinutes = duration,
-                StartTime = startTime
-            };
-            CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
             _projectRepositoryMock.Setup(repo => repo
                 .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
-                .ReturnsAsync(_existingProject);
+                .ThrowsAsync(new BadRequestException("msg"));
+
+            _mapperMock.Setup(mapper => mapper
+                .Map<TimeRecord>(request))
+                .Returns(It.IsAny<TimeRecord>());
+
+            _timeRecordRepositoryMock.Setup(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()))
+                .ReturnsAsync(It.IsAny<TimeRecord>());
 
             Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
+            _validatorMock.Verify(val => val
+                .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
+            _projectRepositoryMock
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+            _mapperMock
+                .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
+            _timeRecordRepositoryMock.Verify(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
+        }
+
+        [Test]
+        public void GivenStartTimeOutsideProjectPeriod_WhenHandlingCommand_ThrowsException()
+        {
+            var startTime = _now.AddDays(-9);
+            var userId = _existingProject.FreelancerId;
+            var projectId = _existingProject.Id;
+            var duration = 5;
+
+            CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
+            {
+                ProjectId = projectId,
+                DurationMinutes = duration,
+                StartTime = startTime
+            };
+            CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
+
+            _validatorMock.Setup(val => val
+                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
+                 .ReturnsAsync(true);
+
+            _projectRepositoryMock.Setup(repo => repo
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .ReturnsAsync(_existingProject);
+
+            _mapperMock.Setup(mapper => mapper
+                .Map<TimeRecord>(request))
+                .Returns(It.IsAny<TimeRecord>());
+
+            _timeRecordRepositoryMock.Setup(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()))
+                .ReturnsAsync(It.IsAny<TimeRecord>());
+
+            var exception = Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
+            Assert.That(exception.Message.Equals("Time registration is outside the project time period"));
+            _validatorMock.Verify(val => val
+                .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
+            _projectRepositoryMock
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+            _mapperMock
+                .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
+            _timeRecordRepositoryMock.Verify(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
+        }
+
+        [Test]
+        public void GivenStartTimeInFuture_WhenHandlingCommand_ThrowsException()
+        {
+            var startTime = _now.AddDays(9);
+            var userId = _existingProject.FreelancerId;
+            var projectId = _existingProject.Id;
+            var duration = 5;
+
+            CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
+            {
+                ProjectId = projectId,
+                DurationMinutes = duration,
+                StartTime = startTime
+            };
+            CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
+
+            _validatorMock.Setup(val => val
+                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId))
+                 .ReturnsAsync(true);
+
+            _projectRepositoryMock.Setup(repo => repo
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .ReturnsAsync(_existingProject);
+
+            _mapperMock.Setup(mapper => mapper
+                .Map<TimeRecord>(request))
+                .Returns(It.IsAny<TimeRecord>());
+
+            _timeRecordRepositoryMock.Setup(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()))
+                .ReturnsAsync(It.IsAny<TimeRecord>());
+
+            var exception = Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
+            Assert.That(exception.Message.Equals("Time Registration cannot be in the future."));
+            _validatorMock.Verify(val => val
+                .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
+            _projectRepositoryMock
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+            _mapperMock
+                .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
+            _timeRecordRepositoryMock.Verify(repo => repo
+                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
         }
     }
 }
