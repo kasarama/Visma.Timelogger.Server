@@ -205,13 +205,6 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             };
             CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
 
-            //_loggerMock.Object
-            //_commandValidator.Object,
-            //_validatorMock.Object, *
-            //_projectRepositoryMock.Object, *
-            //_timeRecordRepositoryMock.Object, *
-            //_mapperMock.Object
-
             _projectRepositoryMock.Setup(repo => repo
                 .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
                 .ReturnsAsync(_existingProject);
@@ -297,7 +290,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         [Test]
         public void _GivenInvalidStartTime_WhenHandlingCommand_ThrowsException()
         {
-            Project? project = null;
+            //Project? project = null;
             var startTime = _now.AddDays(5);
             var userId = _existingProject.FreelancerId;
             var projectId = _existingProject.Id;
