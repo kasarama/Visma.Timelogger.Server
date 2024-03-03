@@ -13,9 +13,6 @@ namespace Visma.Timelogger.Persistence.EntityConfigurations
             builder.Property(p => p.ProjectId).IsRequired();
             builder.Property(p => p.StartTime).IsRequired();
             builder.Property(p => p.DurationMinutes).IsRequired();
-            //builder.HasOne(tr => tr.Project)
-            //  .WithMany(p => p.TimeRecords)
-            //  .HasForeignKey(tr => tr.ProjectId);
         }
     }
 }

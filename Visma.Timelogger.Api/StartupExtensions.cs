@@ -22,7 +22,6 @@ namespace Visma.Timelogger.Api
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
