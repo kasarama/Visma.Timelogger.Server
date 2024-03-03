@@ -8,6 +8,6 @@
         public DateTime StartTime { get; set; }
         public DateTime Deadline { get; set; }
         public List<TimeRecord> TimeRecords { get; set; } = new List<TimeRecord>();
-        public bool IsCompleted { get; set; }
+        public bool IsActive { get; set; }
     }
 }

@@ -5,27 +5,26 @@ using Visma.Timelogger.Application.RequestModels;
 
 namespace Visma.Timelogger.Api.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class TimeRecordController : Controller
+    public class ApiController : Controller
     {
 
         private readonly IMediator _mediator;
 
-        public TimeRecordController(IMediator mediator)
+        public ApiController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        [HttpPost("Create", Name = "Create New Tome Record")]
+        [HttpPost("CreateTimeRecord", Name = "Create Time Record")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<string>> Create([FromBody] CreateTimeRecordRequestModel request)
+        public async Task<ActionResult<string>> CreateTimeRecord([FromBody] CreateTimeRecordRequestModel request)
         {
             Guid userId = (Guid)HttpContext.Items["UserId"];
-
 
             await _mediator.Send(new CreateTimeRecordCommand(request, userId));
 
