@@ -12,7 +12,8 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
             RuleFor(c => c.ProjectId).NotEmpty().WithMessage(required);
             RuleFor(c => c.StartTime).NotEmpty().WithMessage(required);
             RuleFor(c => c.DurationMinutes).NotEmpty().WithMessage(required)
-                                           .GreaterThanOrEqualTo(30).WithMessage("Duration must be of at least 30 minutes");
+                                           .GreaterThanOrEqualTo(30).WithMessage("Duration must be of at least 30 minutes.")
+                                           .LessThanOrEqualTo(60 * 24).WithMessage("Duration must be of max 24 hours.");
         }
     }
 }

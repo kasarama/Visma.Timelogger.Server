@@ -10,9 +10,19 @@ namespace Visma.Timelogger.Persistence.Repositories
         {
         }
 
+        public async Task<Project?> GetActiveByProjectIdForFreelancerAsync(Guid projectId, Guid freelancerId)
+        {
+            var result = await _dbContext.Projects
+                            .Where(p => p.IsActive && p.Id == projectId && p.FreelancerId == freelancerId)
+                            .Include(p => p.TimeRecords)
+                            .FirstOrDefaultAsync();
+            return result;
+        }
+
         public async Task<IReadOnlyList<Project>> ListAllWithTimeRecordsAsync()
         {
-            return await _dbContext.Set<Project>().Include(p => p.TimeRecords).ToListAsync();
+            var result = await _dbContext.Set<Project>().Include(p => p.TimeRecords).ToListAsync();
+            return result;
         }
 
     }
