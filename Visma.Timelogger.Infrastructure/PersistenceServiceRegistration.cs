@@ -15,7 +15,6 @@ namespace Visma.Timelogger.Persistence
 
             options.EnableSensitiveDataLogging().UseInMemoryDatabase("projects"));
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IProjectRepository), typeof(ProjectRepository));
 
             return services;

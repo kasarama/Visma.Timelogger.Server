@@ -14,21 +14,18 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
         private readonly AbstractValidator<CreateTimeRecordCommand> _commandValidator;
         private readonly IRequestValidator _validator;
         private readonly IProjectRepository _projectRepository;
-        private readonly IAsyncRepository<TimeRecord> _timeRecordRepository;
         private readonly IMapper _mapper;
 
         public CreateTimeRecordCommandHandler(ILogger<CreateTimeRecordCommandHandler> logger,
                                               AbstractValidator<CreateTimeRecordCommand> commandValidator,
                                               IRequestValidator validator,
                                               IProjectRepository projectRepository,
-                                              IAsyncRepository<TimeRecord> timeRecordRepository,
                                               IMapper mapper)
         {
             _logger = logger;
             _commandValidator = commandValidator;
             _validator = validator;
             _projectRepository = projectRepository;
-            _timeRecordRepository = timeRecordRepository;
             _mapper = mapper;
         }
 
@@ -42,7 +39,9 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
             IsTimeRecordWithinProjectPeriod(project, request);
 
             TimeRecord timeRecord = _mapper.Map<TimeRecord>(request);
-            await _timeRecordRepository.AddAsync(timeRecord);
+            project.TimeRecords.Add(timeRecord);
+
+            await _projectRepository.UpdateAsync(project);
 
             return true;
         }

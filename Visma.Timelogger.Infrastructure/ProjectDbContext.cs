@@ -19,7 +19,7 @@ namespace Visma.Timelogger.Persistence
             SeedData(modelBuilder);
         }
 
-        public void SeedData(ModelBuilder modelBuilder)
+        private void SeedData(ModelBuilder modelBuilder)
         {
             Random rnd = new Random();
 
