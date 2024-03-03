@@ -13,15 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A5B33FE0-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E3908466-0254-4205-A3BF-B429656F83E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visma.Timelogger.Api", "Visma.Timelogger.Api\Visma.Timelogger.Api.csproj", "{332D4499-54F2-45EC-8424-2D8F825003ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visma.Timelogger.Api", "Visma.Timelogger.Api\Visma.Timelogger.Api.csproj", "{332D4499-54F2-45EC-8424-2D8F825003ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visma.Timelogger.Domain", "Visma.Timelogger.Domain\Visma.Timelogger.Domain.csproj", "{71A6B890-8FEB-4718-ADEC-2ACBA1C7E9DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visma.Timelogger.Domain", "Visma.Timelogger.Domain\Visma.Timelogger.Domain.csproj", "{71A6B890-8FEB-4718-ADEC-2ACBA1C7E9DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visma.Timelogger.Application", "Visma.Timelogger.Application\Visma.Timelogger.Application.csproj", "{1479172B-8CCA-4EBF-8E7A-88EB199F947D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visma.Timelogger.Application", "Visma.Timelogger.Application\Visma.Timelogger.Application.csproj", "{1479172B-8CCA-4EBF-8E7A-88EB199F947D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visma.Timelogger.Persistence", "Visma.Timelogger.Infrastructure\Visma.Timelogger.Persistence.csproj", "{D4CF727A-C58B-4983-9787-5609042D3AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visma.Timelogger.Persistence", "Visma.Timelogger.Infrastructure\Visma.Timelogger.Persistence.csproj", "{D4CF727A-C58B-4983-9787-5609042D3AAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visma.Timelogger.Application.Test.Unit", "Visma.Timelogger.Application.Test.Unit\Visma.Timelogger.Application.Test.Unit.csproj", "{E7474952-91B2-42E1-AEE0-692EBAC2AAC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visma.Timelogger.Application.Test.Unit", "Visma.Timelogger.Application.Test.Unit\Visma.Timelogger.Application.Test.Unit.csproj", "{E7474952-91B2-42E1-AEE0-692EBAC2AAC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visma.Timelogger.Persistence.Test.Integration", "Visma.Timelogger.Persistence.Test.Integration\Visma.Timelogger.Persistence.Test.Integration.csproj", "{2B632A40-6BB9-4952-B846-31B6C9C48B7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{E7474952-91B2-42E1-AEE0-692EBAC2AAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7474952-91B2-42E1-AEE0-692EBAC2AAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7474952-91B2-42E1-AEE0-692EBAC2AAC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B632A40-6BB9-4952-B846-31B6C9C48B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B632A40-6BB9-4952-B846-31B6C9C48B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B632A40-6BB9-4952-B846-31B6C9C48B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B632A40-6BB9-4952-B846-31B6C9C48B7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{1479172B-8CCA-4EBF-8E7A-88EB199F947D} = {A5B33FE0-32F4-4278-938C-BA01E3750AF1}
 		{D4CF727A-C58B-4983-9787-5609042D3AAE} = {E3908466-0254-4205-A3BF-B429656F83E9}
 		{E7474952-91B2-42E1-AEE0-692EBAC2AAC1} = {0484369D-0F9A-4EB7-9957-CFD574824CCD}
+		{2B632A40-6BB9-4952-B846-31B6C9C48B7A} = {0484369D-0F9A-4EB7-9957-CFD574824CCD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42DFCDC2-4FED-4DCA-8B98-F223AE207864}

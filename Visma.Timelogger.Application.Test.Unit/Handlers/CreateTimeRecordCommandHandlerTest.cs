@@ -18,7 +18,6 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         private Mock<ILogger<CreateTimeRecordCommandHandler>> _loggerMock;
         private Mock<IRequestValidator> _validatorMock;
         private Mock<IProjectRepository> _projectRepositoryMock;
-        private Mock<IAsyncRepository<TimeRecord>> _timeRecordRepositoryMock;
         private Mock<IMapper> _mapperMock;
         private Project _existingProject;
         private DateTime _now = DateTime.Now;
@@ -30,7 +29,6 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _commandValidator = new Mock<AbstractValidator<CreateTimeRecordCommand>>();
             _validatorMock = new Mock<IRequestValidator>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
-            _timeRecordRepositoryMock = new Mock<IAsyncRepository<TimeRecord>>();
             _mapperMock = new Mock<IMapper>();
             _existingProject = new Project()
             {
@@ -47,7 +45,6 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 _commandValidator.Object,
                 _validatorMock.Object,
                 _projectRepositoryMock.Object,
-                _timeRecordRepositoryMock.Object,
                 _mapperMock.Object
             );
         }
@@ -215,9 +212,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Map<TimeRecord>(request))
                 .Returns(It.IsAny<TimeRecord>());
 
-            _timeRecordRepositoryMock.Setup(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()))
-                .ReturnsAsync(It.IsAny<TimeRecord>());
+            _projectRepositoryMock.Setup(repo => repo
+                .UpdateAsync(It.IsAny<Project>())).Verifiable();
 
             var result = await _SUT.Handle(request, CancellationToken.None);
 
@@ -228,8 +224,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Once);
-            _timeRecordRepositoryMock.Verify(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()), Times.Once);
+            _projectRepositoryMock
+                .Verify(repo => repo.UpdateAsync(It.IsAny<Project>()), Times.Once);
         }
 
         [Test]
@@ -260,9 +256,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Map<TimeRecord>(request))
                 .Returns(It.IsAny<TimeRecord>());
 
-            _timeRecordRepositoryMock.Setup(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()))
-                .ReturnsAsync(It.IsAny<TimeRecord>());
+            _projectRepositoryMock.Setup(repo => repo
+                .UpdateAsync(It.IsAny<Project>())).Verifiable();
 
             Assert.ThrowsAsync<RequestValidationException>(async () => await _SUT.Handle(request, CancellationToken.None));
             _validatorMock.Verify(val => val
@@ -271,8 +266,9 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Never);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
-            _timeRecordRepositoryMock.Verify(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
+            _projectRepositoryMock
+                .Verify(repo => repo.UpdateAsync(It.IsAny<Project>()), Times.Never);
+
         }
 
 
@@ -304,9 +300,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Map<TimeRecord>(request))
                 .Returns(It.IsAny<TimeRecord>());
 
-            _timeRecordRepositoryMock.Setup(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()))
-                .ReturnsAsync(It.IsAny<TimeRecord>());
+            _projectRepositoryMock.Setup(repo => repo
+                .UpdateAsync(It.IsAny<Project>())).Verifiable();
 
             Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
             _validatorMock.Verify(val => val
@@ -315,8 +310,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
-            _timeRecordRepositoryMock.Verify(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
+            _projectRepositoryMock
+                .Verify(repo => repo.UpdateAsync(It.IsAny<Project>()), Times.Never);
         }
 
         [Test]
@@ -347,9 +342,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Map<TimeRecord>(request))
                 .Returns(It.IsAny<TimeRecord>());
 
-            _timeRecordRepositoryMock.Setup(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()))
-                .ReturnsAsync(It.IsAny<TimeRecord>());
+            _projectRepositoryMock.Setup(repo => repo
+                .UpdateAsync(It.IsAny<Project>())).Verifiable();
 
             var exception = Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
             Assert.That(exception.Message.Equals("Time registration is outside the project time period"));
@@ -359,8 +353,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
-            _timeRecordRepositoryMock.Verify(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
+            _projectRepositoryMock
+                .Verify(repo => repo.UpdateAsync(It.IsAny<Project>()), Times.Never);
         }
 
         [Test]
@@ -391,9 +385,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Map<TimeRecord>(request))
                 .Returns(It.IsAny<TimeRecord>());
 
-            _timeRecordRepositoryMock.Setup(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()))
-                .ReturnsAsync(It.IsAny<TimeRecord>());
+            _projectRepositoryMock.Setup(repo => repo
+                .UpdateAsync(It.IsAny<Project>())).Verifiable();
 
             var exception = Assert.ThrowsAsync<BadRequestException>(async () => await _SUT.Handle(request, CancellationToken.None));
             Assert.That(exception.Message.Equals("Time Registration cannot be in the future."));
@@ -403,8 +396,8 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
-            _timeRecordRepositoryMock.Verify(repo => repo
-                .AddAsync(It.IsAny<TimeRecord>()), Times.Never);
+            _projectRepositoryMock
+                .Verify(repo => repo.UpdateAsync(It.IsAny<Project>()), Times.Never);
         }
     }
 }

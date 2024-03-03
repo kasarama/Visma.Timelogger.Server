@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-
-namespace Visma.Timelogger.Api.Middleware
+﻿namespace Visma.Timelogger.Api.Middleware
 {
     public static class MiddlewareExtensions
     {
