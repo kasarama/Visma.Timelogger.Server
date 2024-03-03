@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Visma.Timelogger.Application.Contracts;
+using Visma.Timelogger.Application.Services;
 
 namespace Visma.Timelogger.Application
 {
@@ -10,7 +12,7 @@ namespace Visma.Timelogger.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
-        //    services.AddScoped<IProductionService, ProductionService>();
+            services.AddScoped<IRequestValidator, RequestValidator>();
 
             return services;
         }

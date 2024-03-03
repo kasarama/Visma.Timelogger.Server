@@ -1,6 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Visma.Timelogger.Application.Contracts;
 using Visma.Timelogger.Application.RequestModels;
+using Visma.Timelogger.Domain.Entities;
+using Visma.Timelogger.Persistence;
 
 namespace Visma.Timelogger.Api.Controllers
 {
@@ -9,10 +13,12 @@ namespace Visma.Timelogger.Api.Controllers
     public class ProjectController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IProjectRepository _projectRepository;
 
-        public ProjectController(IMediator mediator)
+        public ProjectController(IMediator mediator, ProjectDbContext projectDbContext, IProjectRepository projectRepository)
         {
             _mediator = mediator;
+            _projectRepository = projectRepository;
         }
 
         [HttpPost("Create", Name = "Create New Project")]
@@ -25,6 +31,12 @@ namespace Visma.Timelogger.Api.Controllers
             return StatusCode(202);
         }
 
+        [HttpGet("AllProjects", Name = "Get All Projects")]
+        public async Task<ActionResult<Project[]>> GetAll()
+        {
+           var result = await _projectRepository.ListAllWithTimeRecordsAsync();
+            return  Ok(result);
+        }
 
     }
 }
