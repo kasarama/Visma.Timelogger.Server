@@ -11,12 +11,10 @@ namespace Visma.Timelogger.Persistence
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ProjectDbContext>(options =>
-                       //     options.UseSqlServer(configuration.GetConnectionString("MMSQLConnectionString")));
+            //     options.UseSqlServer(configuration.GetConnectionString("MMSQLConnectionString")));
+                     options.UseInMemoryDatabase("projects"));
 
-            options.EnableSensitiveDataLogging().UseInMemoryDatabase("projects"));
-
-            services.AddScoped(typeof(IProjectRepository), typeof(ProjectRepository));
-
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             return services;
         }
     }

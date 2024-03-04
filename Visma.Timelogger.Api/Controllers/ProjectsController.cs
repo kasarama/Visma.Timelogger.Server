@@ -7,12 +7,12 @@ namespace Visma.Timelogger.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiController : Controller
+    public class ProjectsController : Controller
     {
 
         private readonly IMediator _mediator;
 
-        public ApiController(IMediator mediator)
+        public ProjectsController(IMediator mediator)
         {
             _mediator = mediator;
         }

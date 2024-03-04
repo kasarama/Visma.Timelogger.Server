@@ -29,14 +29,23 @@ namespace Visma.Timelogger.Api.Middleware
             else
             {
                 // Validate the access token with the Authentication Service
-                UserInfo userInfo = await ValidateAccessToken(accessToken);
-                context.Items["UserId"] = userInfo.UserId;
+                UserInfo userInfo = ValidateAccessToken(accessToken);
+                if (userInfo.UserId == Guid.Empty)
+                {
+                    context.Response.StatusCode = 401;
+                    await context.Response.WriteAsync("Authorization header is invalid.");
+                    return;
+                }
+                else
+                {
+                    context.Items["UserId"] = userInfo.UserId;
+                }
             }
             // Call the next middleware in the pipeline
             await _next(context);
         }
 
-        public Task<UserInfo> ValidateAccessToken(string accessToken)
+        public UserInfo ValidateAccessToken(string accessToken)
         {
             UserInfo userInfo = new UserInfo();
             switch (accessToken.ToLower())
@@ -54,10 +63,11 @@ namespace Visma.Timelogger.Api.Middleware
                     userInfo.UserId = Guid.Parse("AE1E5C8E-7106-401A-A51F-FBEC70972DEE");
                     break;
                 default:
-                    throw new AuthorizationException("Request unauthorized");
-
+                    userInfo.UserId = Guid.Empty;
+                    break;
             }
-            return Task.FromResult(userInfo);
+
+            return userInfo;
         }
     }
 }

@@ -7,5 +7,6 @@
         {
             ErrorList = errors;
         }
+        public ValidationErrorDto() : base("", 0) { }
     }
 }
