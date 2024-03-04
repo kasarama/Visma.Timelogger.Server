@@ -3,6 +3,8 @@ using Visma.Timelogger.Domain.Entities;
 using Visma.Timelogger.Persistence.EntityConfigurations;
 using Newtonsoft.Json;
 using System.Text;
+using System;
+
 namespace Visma.Timelogger.Persistence
 {
     public class ProjectDbContext : DbContext
@@ -35,7 +37,10 @@ namespace Visma.Timelogger.Persistence
 
             int projectQuantity = 10;
 
+            const string chars = "AB CD EFGH IJKLMN  OPQ RSTUV WX YZ  ";
+             
             Project[] projects = new Project[projectQuantity];
+
             List<TimeRecord> records = new List<TimeRecord>();
             for (int i = 0; i < projectQuantity; i++)
             {
@@ -47,8 +52,10 @@ namespace Visma.Timelogger.Persistence
                     FreelancerId = rnd.Next(1, 3) % 2 == 0 ? freelancerId1 : freelancerId2,
                     StartTime = startDate,
                     Deadline = startDate.AddDays(rnd.Next(5, 100)),
-                    IsActive = rnd.Next(1, 3) % 2 == 0 ? false : true
-                };
+                    IsActive = rnd.Next(1, 3) % 2 == 0 ? false : true,
+                    Name = new string(Enumerable.Repeat(chars, 10)
+                    .Select(s => s[rnd.Next(s.Length)]).ToArray())
+            };
 
                 for (int j = 0; j < rnd.Next(0, 10); j++)
                 {

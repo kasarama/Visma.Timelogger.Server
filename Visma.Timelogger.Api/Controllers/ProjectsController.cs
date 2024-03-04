@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Visma.Timelogger.Application.Features.CreateTimeRecord;
+using Visma.Timelogger.Application.Features.GetProjectOverview;
 using Visma.Timelogger.Application.RequestModels;
 
 namespace Visma.Timelogger.Api.Controllers
@@ -30,5 +31,20 @@ namespace Visma.Timelogger.Api.Controllers
 
             return StatusCode(201);
         }
+
+        [HttpGet("GetProjectOverview/{projectId}", Name = "Get Overview Of Project With Time Registrations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<string>> GetProjectOverview([FromRoute] Guid projectId)
+        {
+            //logic
+            Guid userId = (Guid)HttpContext.Items["UserId"];
+
+            await _mediator.Send(new GetProjectOverviewQuery(projectId, userId));
+            return StatusCode(201);
+        }
+
     }
 }
