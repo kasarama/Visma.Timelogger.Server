@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Persisence.Entities;
+using Visma.Timelogger.Domain.Entities;
 
 namespace Visma.Timelogger.Persistence.EntityConfigurations
 {
@@ -11,6 +11,11 @@ namespace Visma.Timelogger.Persistence.EntityConfigurations
             builder.HasKey(p => p.Id);
             builder.Property(p => p.FreelancerId).IsRequired();
             builder.Property(p => p.CustomerId).IsRequired();
+            builder.Property(p => p.Deadline).IsRequired();
+            builder.Property(p => p.StartTime).IsRequired();
+            builder.HasMany(p => p.TimeRecords)
+                .WithOne()
+                .HasForeignKey(tr => tr.ProjectId);
         }
     }
 }

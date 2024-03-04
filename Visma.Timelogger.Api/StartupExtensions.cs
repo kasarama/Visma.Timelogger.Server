@@ -1,4 +1,5 @@
-﻿using Visma.Timelogger.Application;
+﻿using Visma.Timelogger.Api.Middleware;
+using Visma.Timelogger.Application;
 using Visma.Timelogger.Persistence;
 
 namespace Visma.Timelogger.Api
@@ -16,21 +17,37 @@ namespace Visma.Timelogger.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
-
             return builder.Build();
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+
+                using var scope = app.Services.CreateScope();
+                try
+                {
+                    var context = scope.ServiceProvider.GetService<ProjectDbContext>();
+                    if (context != null)
+                    {
+                      context.Database.EnsureCreatedAsync();
+                      
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while migrating the database.");
+                }
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCustomHandlers();
 
             app.UseAuthorization();
 
