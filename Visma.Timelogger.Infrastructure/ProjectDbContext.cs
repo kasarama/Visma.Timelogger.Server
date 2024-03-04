@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Visma.Timelogger.Domain.Entities;
 using Visma.Timelogger.Persistence.EntityConfigurations;
-
+using Newtonsoft.Json;
+using System.Text;
 namespace Visma.Timelogger.Persistence
 {
     public class ProjectDbContext : DbContext
@@ -16,7 +17,10 @@ namespace Visma.Timelogger.Persistence
         {
             modelBuilder.ApplyConfiguration(new ProjectEntityConfiguration());
             modelBuilder.ApplyConfiguration(new TimeRecordEntityConfiguration());
-            SeedData(modelBuilder);
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                SeedData(modelBuilder);
+            };
         }
 
         private void SeedData(ModelBuilder modelBuilder)
@@ -35,14 +39,14 @@ namespace Visma.Timelogger.Persistence
             List<TimeRecord> records = new List<TimeRecord>();
             for (int i = 0; i < projectQuantity; i++)
             {
-                DateTime startDate = DateTime.Now.AddDays(rnd.Next(-50, 50));
+                DateTime startDate = DateTime.Now.AddDays(rnd.Next(-50, 2));
                 Project project = new Project()
                 {
                     Id = Guid.NewGuid(),
                     CustomerId = rnd.Next(1, 3) % 2 == 0 ? customerId1 : customerId2,
                     FreelancerId = rnd.Next(1, 3) % 2 == 0 ? freelancerId1 : freelancerId2,
                     StartTime = startDate,
-                    Deadline = startDate.AddDays(rnd.Next(1, 100)),
+                    Deadline = startDate.AddDays(rnd.Next(5, 100)),
                     IsActive = rnd.Next(1, 3) % 2 == 0 ? false : true
                 };
 
@@ -63,6 +67,7 @@ namespace Visma.Timelogger.Persistence
 
             modelBuilder.Entity<Project>().HasData(projects);
             modelBuilder.Entity<TimeRecord>().HasData(records);
+            Console.WriteLine(JsonConvert.SerializeObject(projects));
         }
 
         private DateTime GenerateRandomDate(DateTime startDate, DateTime endDate)

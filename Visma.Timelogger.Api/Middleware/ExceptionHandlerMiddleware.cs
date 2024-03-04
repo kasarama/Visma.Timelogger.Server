@@ -23,6 +23,8 @@ namespace Visma.Timelogger.Api.Middleware
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An unhandled exception occurred.");
+
                 await ConvertException(context, ex);
             }
         }
@@ -47,17 +49,13 @@ namespace Visma.Timelogger.Api.Middleware
                     httpStatusCode = HttpStatusCode.BadRequest;
                     result = JsonSerializer.Serialize(new ErrorDto(badRequestException.Message, 400));
                     break;
-                case AuthorizationException badRequestException:
-                    httpStatusCode = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(new ErrorDto(badRequestException.Message, 401));
-                    break;
                 default:
+                    httpStatusCode = HttpStatusCode.InternalServerError;
                     result = JsonSerializer.Serialize(new ErrorDto("Internal server error", 500));
                     break;
             }
 
-            _logger.LogError(result, exception);
-
+            _logger.LogInformation("Exception Handled in ExceptionHandlerMiddleware");
             context.Response.StatusCode = (int)httpStatusCode;
 
             return context.Response.WriteAsync(result);

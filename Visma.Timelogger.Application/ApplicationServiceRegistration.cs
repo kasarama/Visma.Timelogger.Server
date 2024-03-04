@@ -17,7 +17,6 @@ namespace Visma.Timelogger.Application
             services.AddScoped<IRequestValidator, RequestValidator>();
             services.AddScoped<AbstractValidator<CreateTimeRecordCommand>, CreateTimeRecordCommandValidator>();
 
-
             return services;
         }
     }
