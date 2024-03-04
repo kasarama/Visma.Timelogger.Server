@@ -224,12 +224,12 @@ var assemblies = [
       { "name": "Program", "rp": "Visma.Timelogger.Api_Program.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Visma.Timelogger.Api.Controllers.ApiHeaders", "rp": "Visma.Timelogger.Api_ApiHeaders.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Visma.Timelogger.Api.Controllers.ProjectsController", "rp": "Visma.Timelogger.Api_ProjectsController.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Visma.Timelogger.Api.Middleware.AuthorizationMiddleware", "rp": "Visma.Timelogger.Api_AuthorizationMiddleware.html", "cl": 37, "ucl": 4, "cal": 41, "tl": 73, "cb": 10, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Visma.Timelogger.Api.Middleware.ErrorDto", "rp": "Visma.Timelogger.Api_ErrorDto.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Visma.Timelogger.Api.Middleware.ExceptionHandlerMiddleware", "rp": "Visma.Timelogger.Api_ExceptionHandlerMiddleware.html", "cl": 32, "ucl": 3, "cal": 35, "tl": 64, "cb": 3, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Visma.Timelogger.Api.Middleware.AuthorizationMiddleware", "rp": "Visma.Timelogger.Api_AuthorizationMiddleware.html", "cl": 37, "ucl": 4, "cal": 41, "tl": 72, "cb": 10, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Visma.Timelogger.Api.Middleware.ErrorDto", "rp": "Visma.Timelogger.Api_ErrorDto.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Visma.Timelogger.Api.Middleware.ExceptionHandlerMiddleware", "rp": "Visma.Timelogger.Api_ExceptionHandlerMiddleware.html", "cl": 31, "ucl": 3, "cal": 34, "tl": 62, "cb": 3, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Visma.Timelogger.Api.Middleware.MiddlewareExtensions", "rp": "Visma.Timelogger.Api_MiddlewareExtensions.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Visma.Timelogger.Api.Middleware.ValidationErrorDto", "rp": "Visma.Timelogger.Api_ValidationErrorDto.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Visma.Timelogger.Api.StartupExtensions", "rp": "Visma.Timelogger.Api_StartupExtensions.html", "cl": 17, "ucl": 17, "cal": 34, "tl": 62, "cb": 1, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Visma.Timelogger.Api.StartupExtensions", "rp": "Visma.Timelogger.Api_StartupExtensions.html", "cl": 17, "ucl": 17, "cal": 34, "tl": 61, "cb": 1, "tb": 4, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "Visma.Timelogger.Application",
@@ -259,7 +259,7 @@ var assemblies = [
       { "name": "Visma.Timelogger.Persistence.EntityConfigurations.TimeRecordEntityConfiguration", "rp": "Visma.Timelogger.Persistence_TimeRecordEntityConfiguration.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 18, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Visma.Timelogger.Persistence.PersistenceServiceRegistration", "rp": "Visma.Timelogger.Persistence_PersistenceServiceRegistration.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "Visma.Timelogger.Persistence.ProjectDbContext", "rp": "Visma.Timelogger.Persistence_ProjectDbContext.html", "cl": 11, "ucl": 47, "cal": 58, "tl": 82, "cb": 1, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "Visma.Timelogger.Persistence.Repositories.ProjectRepository", "rp": "Visma.Timelogger.Persistence_ProjectRepository.html", "cl": 21, "ucl": 0, "cal": 21, "tl": 39, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "Visma.Timelogger.Persistence.Repositories.ProjectRepository", "rp": "Visma.Timelogger.Persistence_ProjectRepository.html", "cl": 17, "ucl": 0, "cal": 17, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
 

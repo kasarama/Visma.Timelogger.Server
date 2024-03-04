@@ -22,8 +22,9 @@ namespace Visma.Timelogger.Persistence.Repositories
             return result;
         }
 
-        public async Task UpdateAsync(Project entity)
+        public async Task AddTimeRecordAsync(Project entity)
         {
+            _dbContext.Entry(entity.TimeRecords.Last()).State = EntityState.Added;
             _dbContext.Projects.Include(p => p.TimeRecords);
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();

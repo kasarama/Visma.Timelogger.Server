@@ -1,5 +1,4 @@
-﻿using Visma.Timelogger.Application.Exceptions;
-using Visma.Timelogger.Application.Features;
+﻿using Visma.Timelogger.Application.Features;
 
 namespace Visma.Timelogger.Api.Middleware
 {

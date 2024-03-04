@@ -58,7 +58,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
 
 
         [Test]
-        public async Task GivenExistingProjectWithNewTimeRecord_UpdateAsync_RecordSaved()
+        public async Task GivenExistingProjectWithNewTimeRecord_AddTimeRecordAsync_RecordSaved()
         {
             var project = _context.Projects.First();
             TimeRecord tr = new TimeRecord()
@@ -70,7 +70,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
             };
             project.TimeRecords.Add(tr);
 
-            await _SUT.UpdateAsync(project);
+            await _SUT.AddTimeRecordAsync(project);
 
             var updated = _context.Projects.Where(e => e.Id == project.Id).FirstOrDefault();
             Assert.That(updated.Id.Equals(project.Id));

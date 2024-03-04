@@ -64,7 +64,7 @@ namespace Visma.Timelogger.Api.Test.Integration
 
             var body = new CreateTimeRecordRequestModel()
             {
-                DurationMinutes = 60,
+                DurationMinutes = 66,
                 ProjectId = TestData.ActiveProjectId,
                 StartTime = TestData.Now
             };
@@ -80,7 +80,7 @@ namespace Visma.Timelogger.Api.Test.Integration
 
             var body = new CreateTimeRecordRequestModel()
             {
-                DurationMinutes = 60,
+                DurationMinutes = 65,
                 ProjectId = TestData.ActiveProjectId,
                 StartTime = TestData.Now
             };
@@ -99,7 +99,7 @@ namespace Visma.Timelogger.Api.Test.Integration
 
             var body = new CreateTimeRecordRequestModel()
             {
-                DurationMinutes = 60,
+                DurationMinutes = 64,
                 ProjectId = TestData.ActiveProjectId,
                 StartTime = TestData.Now
             };
@@ -118,7 +118,7 @@ namespace Visma.Timelogger.Api.Test.Integration
 
             var body = new CreateTimeRecordRequestModel()
             {
-                DurationMinutes = 60,
+                DurationMinutes = 63,
                 ProjectId = TestData.InactiveProjectId,
                 StartTime = TestData.Now
             };
@@ -138,7 +138,7 @@ namespace Visma.Timelogger.Api.Test.Integration
 
             var body = new CreateTimeRecordRequestModel()
             {
-                DurationMinutes = 60,
+                DurationMinutes = 62,
                 ProjectId = TestData.ActiveProjectId,
                 StartTime = DateTime.Now.AddDays(1)
             };
@@ -158,7 +158,7 @@ namespace Visma.Timelogger.Api.Test.Integration
 
             var body = new CreateTimeRecordRequestModel()
             {
-                DurationMinutes = 60,
+                DurationMinutes = 61,
                 ProjectId = TestData.ActiveProjectId,
                 StartTime = TestData.ActiveProject().StartTime.AddDays(-1)
             };
