@@ -19,7 +19,7 @@ This solution is implemented by following patterns such as:
 
 User input is validated with FluentValidation, and sanitized with System.Web.HttpUtility.HtmlEncode method.
 
-Based on the presented User Stories, at least two subdomains can be distinguished: Project Management and Invoice Management. That leads to the choice of microservice architecture for the project. It is scalable and independently deployable each service  has its source code repository. Each element can be extended or replaced without affecting other services. Also, failures in one microservice do not necessarily affect the entire system. Microservices can use an event-driven architecture, enabling asynchronous communication and decoupling between services but data consistency becomes challenging.
+Based on the presented User Stories, at least two subdomains can be distinguished: Project Management and Invoice Management. That leads to the choice of microservice architecture for the project. It is scalable and independently deployable as each service  has its source code repository. Each element can be extended or replaced without affecting other services. Also, failures in one microservice do not necessarily affect the entire system. Microservices can use an event-driven architecture, enabling asynchronous communication and decoupling between services. However, data consistency becomes challenging.
 
 
 ## Development
@@ -28,7 +28,7 @@ To run this project you will need both .NET Core v7.0 installed on your environm
 
 Server - `dotnet restore` - to restore nuget packages, `dotnet build` - to build the solution, `cd Visma.Timelogger.Api && dotnet run` - starts a server on http://localhost:5105. You can download Visual Studio Code. The project was tested on Windows 10.
 
-The server solution contains an API with both a basic Entity Framework in memory context that acts as a database and SqlServer. You can switch between them in [PersistenceServiceRegistration](https://github.com/kasarama/Visma.Timelogger.Server/blob/b8209677d9e75aca6e7db0700b1ff3e447458d99/Visma.Timelogger.Infrastructure/PersistenceServiceRegistration.cs#L13).
+The server solution contains an API with both a basic Entity Framework in-memory context that acts as a database and  the SqlServer. You can switch between them in [PersistenceServiceRegistration](https://github.com/kasarama/Visma.Timelogger.Server/blob/b8209677d9e75aca6e7db0700b1ff3e447458d99/Visma.Timelogger.Infrastructure/PersistenceServiceRegistration.cs#L13).
 
 To run SqlServer run `docker-compose up -d`. It will start SqlServer at port 14433 and RabbitMQ on its default ports (15672).
 
