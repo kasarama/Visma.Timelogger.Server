@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Persistence.Entities;
+using Visma.Timelogger.Domain.Entities;
 
 namespace Visma.Timelogger.Persistence.EntityConfigurations
 {

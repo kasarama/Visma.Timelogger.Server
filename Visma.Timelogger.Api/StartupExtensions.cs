@@ -1,4 +1,5 @@
-﻿using Visma.Timelogger.Application;
+﻿using Visma.Timelogger.Api.Middleware;
+using Visma.Timelogger.Application;
 using Visma.Timelogger.Persistence;
 
 namespace Visma.Timelogger.Api
@@ -16,14 +17,11 @@ namespace Visma.Timelogger.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
-
             return builder.Build();
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -31,6 +29,8 @@ namespace Visma.Timelogger.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCustomHandlers();
 
             app.UseAuthorization();
 

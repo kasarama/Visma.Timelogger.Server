@@ -8,6 +8,7 @@
 	<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
   </ItemGroup>
 	
   <PropertyGroup>
@@ -18,10 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Visma.Timelogger.Domain\Visma.Timelogger.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
