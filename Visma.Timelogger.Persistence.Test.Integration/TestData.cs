@@ -4,7 +4,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
 {
     public static class TestData
     {
-        public static readonly DateTime Now = DateTime.Parse("03/03/2024 12:00:00");
+        public static readonly DateTime Now = DateTime.Parse("03/03/2024 12:00:00").Date;
         public static readonly Guid ActiveProjectId = Guid.Parse("8a62e07b-1375-4887-8a6b-ac1e9d53f836");
         public static readonly Guid InactiveProjectId = Guid.NewGuid();
         public static readonly Guid CustomerId = Guid.NewGuid();

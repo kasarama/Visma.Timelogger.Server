@@ -66,7 +66,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
                 DurationMinutes = 100,
                 ProjectId = project.Id,
                 FreelancerId = project.FreelancerId,
-                StartTime = DateTime.UtcNow,
+                StartTime = DateTime.UtcNow.Date,
             };
             project.TimeRecords.Add(tr);
 
@@ -74,7 +74,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
 
             var updated = _context.Projects.Where(e => e.Id == project.Id).FirstOrDefault();
             Assert.That(updated.Id.Equals(project.Id));
-            Assert.That(updated.TimeRecords.Find(t=>t.Id == tr.Id).Id.Equals(tr.Id));
+            Assert.That(updated.TimeRecords.Find(t => t.Id == tr.Id).Id.Equals(tr.Id));
         }
     }
 }

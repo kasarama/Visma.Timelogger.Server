@@ -14,7 +14,8 @@ namespace Visma.Timelogger.Api.Test.Integration
         private readonly string _dbName = "ApiControllerTestDb";
         private readonly JsonSerializerOptions options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true, IncludeFields = true
+            PropertyNameCaseInsensitive = true,
+            IncludeFields = true
         };
         public ProjectsControllerTest()
         {

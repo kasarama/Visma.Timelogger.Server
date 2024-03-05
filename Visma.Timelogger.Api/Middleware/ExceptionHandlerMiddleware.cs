@@ -29,8 +29,6 @@ namespace Visma.Timelogger.Api.Middleware
 
         private Task ConvertException(HttpContext context, Exception exception)
         {
-            _logger.LogError(exception, exception.Message);
-
             context.Response.ContentType = "application/json";
 
             var result = string.Empty;

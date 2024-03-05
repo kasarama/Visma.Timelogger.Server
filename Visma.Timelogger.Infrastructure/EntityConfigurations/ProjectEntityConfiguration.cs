@@ -9,13 +9,16 @@ namespace Visma.Timelogger.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<Project> builder)
         {
             builder.HasKey(p => p.Id);
+            builder.HasIndex(p => p.Deadline);
             builder.Property(p => p.FreelancerId).IsRequired();
             builder.Property(p => p.CustomerId).IsRequired();
             builder.Property(p => p.Deadline).IsRequired();
             builder.Property(p => p.StartTime).IsRequired();
+            builder.Property(p => p.Name).IsRequired();
             builder.HasMany(p => p.TimeRecords)
-                .WithOne()
-                .HasForeignKey(tr => tr.ProjectId);
+            .WithOne(tr => tr.Project)
+            .HasForeignKey(tr => tr.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -7,22 +7,23 @@ using Visma.Timelogger.Application.Services;
 
 namespace Visma.Timelogger.Application.Test.Unit.Services
 {
-    public class RequestValidatorTest
+    public class HandlerServiceTest
     {
-        private RequestValidator _SUT;
-        private Mock<ILogger<RequestValidator>> _loggerMock;
+        private HandlerService _SUT;
+        private Mock<ILogger<HandlerService>> _loggerMock;
+        private readonly DateTime _now = DateTime.Now.Date;
 
         [SetUp]
         public void Setup()
         {
-            _loggerMock = new Mock<ILogger<RequestValidator>>();
-            _SUT = new RequestValidator(_loggerMock.Object);
+            _loggerMock = new Mock<ILogger<HandlerService>>();
+            _SUT = new HandlerService(_loggerMock.Object);
         }
 
         [Test]
         public async Task GivenValidCreateTimeRecordCommand_WhenValidateRequest_ReturnsTrue()
         {
-            var startTime = DateTime.UtcNow;
+            var startTime = _now;
             var userId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             var duration = 60 * 24;
@@ -44,7 +45,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Services
         [Test]
         public void GivenToShortDuration_WhenValidateRequest_ThrowsException()
         {
-            var startTime = DateTime.UtcNow;
+            var startTime = _now;
             var userId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             var duration = 15;
@@ -67,7 +68,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Services
         [Test]
         public void GivenToLongDuration_WhenValidateRequest_ThrowsException()
         {
-            var startTime = DateTime.UtcNow;
+            var startTime = _now;
             var userId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             var duration = 60 * 24 + 15;

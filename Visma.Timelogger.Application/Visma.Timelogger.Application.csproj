@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Visma.Timelogger.Domain\Visma.Timelogger.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

@@ -30,7 +30,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Profiles
         [Test]
         public void GivenValidCreateTimeRecordCommand_WhenMappingToTimeRecord_TimeRecordCreated()
         {
-            var startTime = DateTime.UtcNow;
+            var startTime = DateTime.UtcNow.Date;
             var userId = Guid.NewGuid();
             var projectId = Guid.NewGuid();
             var duration = 9;

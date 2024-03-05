@@ -16,18 +16,18 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         private CreateTimeRecordCommandHandler _SUT;
         private Mock<AbstractValidator<CreateTimeRecordCommand>> _commandValidator;
         private Mock<ILogger<CreateTimeRecordCommandHandler>> _loggerMock;
-        private Mock<IRequestValidator> _validatorMock;
+        private Mock<IApiRequestValidator> _validatorMock;
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IMapper> _mapperMock;
         private Project _existingProject;
-        private DateTime _now = DateTime.Now;
+        private DateTime _now = DateTime.Now.Date;
 
         [SetUp]
         public void Setup()
         {
             _loggerMock = new Mock<ILogger<CreateTimeRecordCommandHandler>>();
             _commandValidator = new Mock<AbstractValidator<CreateTimeRecordCommand>>();
-            _validatorMock = new Mock<IRequestValidator>();
+            _validatorMock = new Mock<IApiRequestValidator>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
             _mapperMock = new Mock<IMapper>();
             _existingProject = new Project()
@@ -201,7 +201,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
 
             _projectRepositoryMock.Setup(repo => repo
-                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
                 .ReturnsAsync(_existingProject);
 
             _validatorMock.Setup(val => val
@@ -221,7 +221,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _validatorMock.Verify(val => val
                  .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
             _projectRepositoryMock
-                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Once);
             _projectRepositoryMock
@@ -249,7 +249,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                  .ThrowsAsync(new RequestValidationException(new FluentValidation.Results.ValidationResult()));
 
             _projectRepositoryMock.Setup(repo => repo
-                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
                 .ReturnsAsync(_existingProject);
 
             _mapperMock.Setup(mapper => mapper
@@ -263,7 +263,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _validatorMock.Verify(val => val
                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
             _projectRepositoryMock
-                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Never);
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId), Times.Never);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
             _projectRepositoryMock
@@ -293,7 +293,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                  .ReturnsAsync(true);
 
             _projectRepositoryMock.Setup(repo => repo
-                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
                 .ThrowsAsync(new BadRequestException("msg"));
 
             _mapperMock.Setup(mapper => mapper
@@ -307,7 +307,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _validatorMock.Verify(val => val
                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
             _projectRepositoryMock
-                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
             _projectRepositoryMock
@@ -335,7 +335,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                  .ReturnsAsync(true);
 
             _projectRepositoryMock.Setup(repo => repo
-                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
                 .ReturnsAsync(_existingProject);
 
             _mapperMock.Setup(mapper => mapper
@@ -350,7 +350,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _validatorMock.Verify(val => val
                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
             _projectRepositoryMock
-                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
             _projectRepositoryMock
@@ -378,7 +378,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                  .ReturnsAsync(true);
 
             _projectRepositoryMock.Setup(repo => repo
-                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId))
+                .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
                 .ReturnsAsync(_existingProject);
 
             _mapperMock.Setup(mapper => mapper
@@ -393,7 +393,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _validatorMock.Verify(val => val
                 .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
             _projectRepositoryMock
-                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId), Times.Once);
+                .Verify(repo => repo.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId), Times.Once);
             _mapperMock
                 .Verify(mapper => mapper.Map<TimeRecord>(request), Times.Never);
             _projectRepositoryMock

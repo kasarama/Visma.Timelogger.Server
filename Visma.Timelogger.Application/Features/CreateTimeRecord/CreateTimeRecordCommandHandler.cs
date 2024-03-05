@@ -11,19 +11,19 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
     public class CreateTimeRecordCommandHandler : IRequestHandler<CreateTimeRecordCommand, bool>
     {
         private readonly ILogger<CreateTimeRecordCommandHandler> _logger;
-        private readonly AbstractValidator<CreateTimeRecordCommand> _commandValidator;
-        private readonly IRequestValidator _validator;
+        private readonly AbstractValidator<CreateTimeRecordCommand> _requestValidator;
+        private readonly IApiRequestValidator _validator;
         private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
 
         public CreateTimeRecordCommandHandler(ILogger<CreateTimeRecordCommandHandler> logger,
                                               AbstractValidator<CreateTimeRecordCommand> commandValidator,
-                                              IRequestValidator validator,
+                                              IApiRequestValidator validator,
                                               IProjectRepository projectRepository,
                                               IMapper mapper)
         {
             _logger = logger;
-            _commandValidator = commandValidator;
+            _requestValidator = commandValidator;
             _validator = validator;
             _projectRepository = projectRepository;
             _mapper = mapper;
@@ -31,7 +31,7 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
 
         public async Task<bool> Handle(CreateTimeRecordCommand request, CancellationToken cancellationToken)
         {
-            await _validator.ValidateRequest(request, _commandValidator, request.RequestId);
+            await _validator.ValidateRequest(request, _requestValidator, request.RequestId);
 
             var project = await ProjectExists(request);
 
@@ -48,7 +48,7 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
 
         public async Task<Project> ProjectExists(CreateTimeRecordCommand request)
         {
-            var project = await _projectRepository.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.FreelancerId);
+            var project = await _projectRepository.GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId);
 
             if (project == null)
             {

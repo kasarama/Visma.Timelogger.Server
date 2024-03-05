@@ -5,11 +5,11 @@ using Visma.Timelogger.Application.Exceptions;
 
 namespace Visma.Timelogger.Application.Services
 {
-    public class RequestValidator : IRequestValidator
+    public class HandlerService : IApiRequestValidator
     {
-        private ILogger<RequestValidator> _logger;
+        private ILogger<HandlerService> _logger;
 
-        public RequestValidator(ILogger<RequestValidator> logger)
+        public HandlerService(ILogger<HandlerService> logger)
         {
             _logger = logger;
         }
