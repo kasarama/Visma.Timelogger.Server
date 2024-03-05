@@ -141,7 +141,7 @@ namespace Visma.Timelogger.Api.Test.Integration
             {
                 DurationMinutes = 62,
                 ProjectId = TestData.ActiveProjectId,
-                StartTime = DateTime.Now.AddDays(1)
+                StartTime = DateTime.UtcNow.AddDays(1)
             };
 
             var response = await client.PostAsync("/api/Projects/CreateTimeRecord", ContentHelper.GetStringContent(body));
@@ -226,6 +226,31 @@ namespace Visma.Timelogger.Api.Test.Integration
             var responseString = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<ErrorDto>(responseString, options);
             Assert.That(result.Message.Equals($"Cannot find Project {invalidProjectId} for Freelancer {TestData.FreelancerId}."));
+        }
+
+        [Test]
+        public async Task GivenValidRequest_GetListProjectOverview_Returns200()
+        {
+            var client = _factory.GetAnonymousClient();
+            client.DefaultRequestHeaders.Add("User", "freelancer1");
+
+            var response = await client.GetAsync($"/api/Projects/GetListProjectOverview");
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.OK));
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<List<ProjectOverviewViewModel>>(responseString, options);
+            Assert.That(result.Count.Equals(2));
+        }
+
+        [Test]
+        public async Task GivenInvalidRequest_GetListProjectOverview_Returns401()
+        {
+            var client = _factory.GetAnonymousClient();
+            client.DefaultRequestHeaders.Add("User", "invalid");
+
+            var response = await client.GetAsync($"/api/Projects/GetListProjectOverview");
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.Unauthorized));
+            var responseString = await response.Content.ReadAsStringAsync();
+            Assert.That(responseString.Equals("Authorization header is invalid."));
         }
     }
 }

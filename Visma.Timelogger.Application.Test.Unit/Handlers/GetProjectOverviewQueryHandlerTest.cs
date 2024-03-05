@@ -20,7 +20,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         private Mock<IMapper> _mapperMock;
         private Project _existingProject;
         ProjectOverviewViewModel _existingProjectOverviewVM;
-        private DateTime _now = DateTime.Now.Date;
+        private DateTime _now = DateTime.UtcNow.Date;
 
 
         [SetUp]

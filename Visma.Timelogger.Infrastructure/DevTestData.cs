@@ -25,7 +25,7 @@ namespace Visma.Timelogger.Persistence
             List<TimeRecord> records = new List<TimeRecord>();
             for (int i = 0; i < projectQuantity; i++)
             {
-                DateTime startDate = DateTime.Now.AddDays(rnd.Next(-50, 2)).Date;
+                DateTime startDate = DateTime.UtcNow.AddDays(rnd.Next(-50, 2)).Date;
                 Project project = new Project()
                 {
                     Id = Guid.NewGuid(),

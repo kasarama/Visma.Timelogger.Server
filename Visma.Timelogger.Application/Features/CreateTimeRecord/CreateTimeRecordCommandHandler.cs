@@ -59,7 +59,7 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
         }
         public bool IsTimeRecordInPast(CreateTimeRecordCommand request)
         {
-            DateTime currentDateTime = DateTime.Now;
+            DateTime currentDateTime = DateTime.UtcNow;
 
             bool isInPast = request.StartTime.Date <= currentDateTime.Date;
 
