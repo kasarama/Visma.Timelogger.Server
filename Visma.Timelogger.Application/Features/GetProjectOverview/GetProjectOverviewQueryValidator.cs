@@ -1,5 +1,4 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Visma.Timelogger.Application.Features.GetProjectOverview
 {

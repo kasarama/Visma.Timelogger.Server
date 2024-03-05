@@ -8,12 +8,12 @@ using Visma.Timelogger.Domain.Entities;
 
 namespace Visma.Timelogger.Application.Test.Unit.Profiles
 {
-    public class TimeRecordMappingProfileTest
+    public class MappingProfileTest
     {
         private readonly IMapper _mapper;
         private readonly MapperConfiguration _mapperConfiguration;
 
-        public TimeRecordMappingProfileTest()
+        public MappingProfileTest()
         {
             _mapperConfiguration = new MapperConfiguration(cfg =>
             {
@@ -56,6 +56,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Profiles
             Assert.That(destination.ProjectId, Is.EqualTo(projectId));
             Assert.That(destination.StartTime, Is.EqualTo(startTime));
             Assert.That(destination.DurationMinutes, Is.EqualTo(duration));
+            Assert.That(destination.Project, Is.Null);
         }
 
         [Test]
@@ -96,7 +97,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Profiles
                 FreelancerId= Guid.NewGuid(),
                 IsActive = true,
                 Name = "<script>function myFunction(){alert('Hello! I am an alert box!');}</script>",
-                StartTime = DateTime.Now.Date.AddDays(-3)                
+                StartTime = DateTime.UtcNow.Date.AddDays(-3)                
             };
 
             List<TimeRecord> records = new List<TimeRecord>();

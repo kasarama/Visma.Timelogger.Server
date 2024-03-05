@@ -37,6 +37,16 @@ namespace Visma.Timelogger.Persistence.Repositories
                             .Include(p => p.TimeRecords);
             return await result.FirstOrDefaultAsync();
         }
+
+        public async Task<List<Project>> GetListForFreelancerAsync(Guid freelancerId)
+        {
+            var result = await _dbContext.Projects
+                        .Include(p => p.TimeRecords)
+                        .Where(p => p.FreelancerId == freelancerId)
+                        .OrderBy(p => p.Deadline)
+                        .ToListAsync();
+            return result;
+        }
     }
 
 }

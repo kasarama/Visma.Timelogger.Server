@@ -95,10 +95,114 @@ namespace Visma.Timelogger.Persistence.Test.Integration
         }
 
         [Test]
-        public async Task GivenInValidUserId_GetByProjectIdForFreelancerAsync_ReturnsNull()
+        public async Task GivenInvalidUserId_GetByIdForFreelancerAsync_ReturnsNull()
         {
             var result = await _SUT.GetByIdForFreelancerAsync(TestData.InactiveProjectId, Guid.NewGuid());
             Assert.That(result == null);
         }
+
+        [Test]
+        public async Task GivenValidUserId_GetListForFreelancerAsync_ReturnsList()
+        {
+            List<Project> testProjects = new List<Project>();
+            int count = 3;
+            Guid freelancerId = Guid.NewGuid();
+
+            for (int j = 0; j < count; j++)
+            {
+                Project project = new Project()
+                {
+                    Id = Guid.NewGuid(),
+                    CustomerId = Guid.NewGuid(),
+                    Deadline = DateTime.UtcNow.Date.AddDays(30),
+                    FreelancerId = freelancerId,
+                    IsActive = true,
+                    Name = "<script>function myFunction(){alert('Hello! I am an alert box!');}</script>",
+                    StartTime = DateTime.UtcNow.Date.AddDays(-3)
+                };
+
+                List<TimeRecord> records = new List<TimeRecord>();
+                for (int i = 1; i <= count ; i++)
+                {
+                    TimeRecord record = new TimeRecord()
+                    {
+                        ProjectId = project.Id,
+                        DurationMinutes = 30 * i,
+                        StartTime = DateTime.UtcNow.Date.AddDays(-i),
+                        FreelancerId = freelancerId,
+                        Id = Guid.NewGuid()
+                    };
+
+                    records.Add(record);
+                }
+
+                project.TimeRecords = records;
+                testProjects.Add(project);
+            }
+
+            _context.Projects.AddRange(testProjects);
+            _context.SaveChanges();
+
+            List<Project> result = await _SUT.GetListForFreelancerAsync(freelancerId);
+
+            Assert.That(result.Count, Is.EqualTo(count));
+            Assert.That(result.ElementAt(0).TimeRecords.Count, Is.EqualTo(count));
+        }
+
+        [Test]
+        public async Task GivenValidUserId_GetListForFreelancerAsync_ReturnsOrderedList()
+        {
+            List<Project> testProjects = new List<Project>();
+            int count = 3;
+            Guid freelancerId = Guid.NewGuid();
+
+            for (int j = 0; j < count; j++)
+            {
+                Project project = new Project()
+                {
+                    Id = Guid.NewGuid(),
+                    CustomerId = Guid.NewGuid(),
+                    Deadline = DateTime.UtcNow.Date.AddDays(30-j),
+                    FreelancerId = freelancerId,
+                    IsActive = true,
+                    Name = "<script>function myFunction(){alert('Hello! I am an alert box!');}</script>",
+                    StartTime = DateTime.UtcNow.Date.AddDays(-3)
+                };
+
+                List<TimeRecord> records = new List<TimeRecord>();
+                for (int i = 1; i <= count; i++)
+                {
+                    TimeRecord record = new TimeRecord()
+                    {
+                        ProjectId = project.Id,
+                        DurationMinutes = 30 * i,
+                        StartTime = DateTime.UtcNow.Date.AddDays(-i),
+                        FreelancerId = freelancerId,
+                        Id = Guid.NewGuid()
+                    };
+
+                    records.Add(record);
+                }
+
+                project.TimeRecords = records;
+                testProjects.Add(project);
+            }
+
+            _context.Projects.AddRange(testProjects);
+            _context.SaveChanges();
+
+            List<Project> result = await _SUT.GetListForFreelancerAsync(freelancerId);
+
+            Assert.That(result.ElementAt(0).Deadline, Is.LessThan(result.ElementAt(1).Deadline));
+            Assert.That(result.ElementAt(0).TimeRecords.Count, Is.EqualTo(count));
+        }
+
+        [Test]
+        public async Task GivenInvalidUserId_GetListForFreelancerAsync_ReturnsEmptyList()
+        {
+            var result = await _SUT.GetListForFreelancerAsync(Guid.NewGuid());
+            Assert.That(result, Is.Empty);
+        }
     }
+
 }

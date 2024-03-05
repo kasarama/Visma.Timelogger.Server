@@ -12,7 +12,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Services
     {
         private HandlerService _SUT;
         private Mock<ILogger<HandlerService>> _loggerMock;
-        private readonly DateTime _now = DateTime.Now.Date;
+        private readonly DateTime _now = DateTime.UtcNow.Date;
 
         [SetUp]
         public void Setup()
