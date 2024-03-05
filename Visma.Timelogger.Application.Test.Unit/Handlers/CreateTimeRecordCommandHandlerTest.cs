@@ -50,7 +50,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public async Task GivenValidRequest_WhenProjectExist_ReturnsTrue()
+        public async Task GivenValidRequest_ProjectExist_ReturnsTrue()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -66,7 +66,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenInvalidRequest_WhenProjectExist_ThrowsException()
+        public void GivenInvalidRequest_ProjectExist_ThrowsException()
         {
             Project? x = null;
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
@@ -83,7 +83,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenValidStartTime_WhenIsTimeRecordWithinProjectPeriodTest_ReturnsTrue()
+        public void GivenValidStartTime_IsTimeRecordWithinProjectPeriodTest_ReturnsTrue()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -95,7 +95,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenValidStartTimeLeftEdge_WhenIsTimeRecordWithinProjectPeriodTest_ReturnsTrue()
+        public void GivenValidStartTimeLeftEdge_IsTimeRecordWithinProjectPeriodTest_ReturnsTrue()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -107,7 +107,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenValidStartTimeRightEdge_WhenIsTimeRecordWithinProjectPeriod_ReturnsTrue()
+        public void GivenValidStartTimeRightEdge_IsTimeRecordWithinProjectPeriod_ReturnsTrue()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -119,7 +119,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenInvalidStartTimeLeftEdge_WhenIsTimeRecordWithinProjectPeriod_ThrowsException()
+        public void GivenInvalidStartTimeLeftEdge_IsTimeRecordWithinProjectPeriod_ThrowsException()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -131,7 +131,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenInvalidStartTimeRightEdge_WhenIsTimeRecordWithinProjectPeriod_ThrowsException()
+        public void GivenInvalidStartTimeRightEdge_IsTimeRecordWithinProjectPeriod_ThrowsException()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -143,7 +143,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenPastTimeRecord_WhenIsTimeRecordInPast_ReturnsTrue()
+        public void GivenPastTimeRecord_IsTimeRecordInPast_ReturnsTrue()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -157,7 +157,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenPresentTimeRecord_WhenIsTimeRecordInPast_ReturnsTrue()
+        public void GivenPresentTimeRecord_IsTimeRecordInPast_ReturnsTrue()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -172,7 +172,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
 
 
         [Test]
-        public void GivenFutureTimeRecord_WhenIsTimeRecordInPast_ThrowsException()
+        public void GivenFutureTimeRecord_IsTimeRecordInPast_ThrowsException()
         {
             CreateTimeRecordRequestModel requestModel = new CreateTimeRecordRequestModel()
             {
@@ -185,7 +185,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public async Task GivenValidRequest_WhenHandlingCommand_ReturnsTrue()
+        public async Task GivenValidRequest_Handle_ReturnsTrue()
         {
             var startTime = _now;
             var userId = _existingProject.FreelancerId;
@@ -229,7 +229,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenInvalidRequest_WhenHandlingCommand_ThrowsException()
+        public void GivenInvalidRequest_Handle_ThrowsException()
         {
             var startTime = _now;
             var userId = _existingProject.FreelancerId;
@@ -273,7 +273,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
 
 
         [Test]
-        public void GivenInvalidProjectData_WhenHandlingCommand_ThrowsException()
+        public void GivenInvalidProjectData_Handle_ThrowsException()
         {
             var startTime = _now;
             var userId = _existingProject.FreelancerId;
@@ -294,7 +294,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
 
             _projectRepositoryMock.Setup(repo => repo
                 .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
-                .ThrowsAsync(new BadRequestException("msg"));
+                .ReturnsAsync((Project)null);
 
             _mapperMock.Setup(mapper => mapper
                 .Map<TimeRecord>(request))
@@ -315,7 +315,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenStartTimeOutsideProjectPeriod_WhenHandlingCommand_ThrowsException()
+        public void GivenStartTimeOutsideProjectPeriod_Handle_ThrowsException()
         {
             var startTime = _now.AddDays(-9);
             var userId = _existingProject.FreelancerId;
@@ -358,7 +358,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         }
 
         [Test]
-        public void GivenStartTimeInFuture_WhenHandlingCommand_ThrowsException()
+        public void GivenStartTimeInFuture_Handle_ThrowsException()
         {
             var startTime = _now.AddDays(9);
             var userId = _existingProject.FreelancerId;

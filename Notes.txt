@@ -1,0 +1,34 @@
+______________________________________________________________________
+install global tools:
+	dotnet tool install -g coverlet.console
+	dotnet tool install -g dotnet-reportgenerator-globaltool
+
+run test coverage:
+	coverlet .\Visma.Timelogger.Api.Test.Integration\bin\Debug\net7.0\Visma.Timelogger.Api.Test.Integration.dll  --target "dotnet" --targetargs "test --no-build"
+	coverlet .\Visma.Timelogger.Application.Test.Unit\bin\Debug\net7.0\Visma.Timelogger.Application.Test.Unit.dll --target "dotnet" --targetargs "test --no-build"
+
+install coverlet.collector NugetPackage
+generate Test Results:
+	dotnet test --collect:"XPlat Code Coverage"
+	
+generate Report:
+	reportgenerator -reports:"Test result path" -targetdir: "coverageresults" -reporttypes:Html  
+	ALL:
+	reportgenerator -reports:".\*\TestResults\*\coverage.cobertura.xml" -targetdir:"testcoverageresults" -reporttypes:Html
+	reportgenerator -reports:".\Visma.Timelogger.Application.Test.Unit\TestResults\*\coverage.cobertura.xml" -targetdir:".\Visma.Timelogger.Application.Test.Unit\coverageresults" -reporttypes:Html
+______________________________________________________________________
+
+reportgenerator -reports:".\Visma.Timelogger.Api.Test.Integration\TestResults\e13b0e8c-e50e-4112-9c41-cfe31dc34094\coverage.cobertura.xml" -targetdir:"APIcoverageresults" -reporttypes:Html 
+______________________________________________________________________
+
+
+______________________________________________________________________
+
+
+______________________________________________________________________
+
+
+______________________________________________________________________
+
+
+______________________________________________________________________
