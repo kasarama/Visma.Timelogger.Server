@@ -26,23 +26,6 @@ namespace Visma.Timelogger.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-
-                using var scope = app.Services.CreateScope();
-                try
-                {
-                    var context = scope.ServiceProvider.GetService<ProjectDbContext>();
-                    if (context != null)
-                    {
-                      context.Database.EnsureCreatedAsync();
-                      
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while migrating the database.");
-                }
             }
 
             app.UseHttpsRedirection();

@@ -1,10 +1,10 @@
 ﻿using Azure.Core;
-using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
 using Visma.Timelogger.Api.Middleware;
 using Visma.Timelogger.Api.Test.Integration.Base;
 using Visma.Timelogger.Application.RequestModels;
+using Visma.Timelogger.Application.VieModels;
 
 namespace Visma.Timelogger.Api.Test.Integration
 {
@@ -14,7 +14,8 @@ namespace Visma.Timelogger.Api.Test.Integration
         private readonly string _dbName = "ApiControllerTestDb";
         private readonly JsonSerializerOptions options = new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true, IncludeFields = true
+            PropertyNameCaseInsensitive = true,
+            IncludeFields = true
         };
         public ProjectsControllerTest()
         {
@@ -160,7 +161,7 @@ namespace Visma.Timelogger.Api.Test.Integration
             {
                 DurationMinutes = 61,
                 ProjectId = TestData.ActiveProjectId,
-                StartTime = TestData.ActiveProject().StartTime.AddDays(-1)
+                StartTime = TestData.ActiveProject.StartTime.AddDays(-1)
             };
 
             var response = await client.PostAsync("/api/Projects/CreateTimeRecord", ContentHelper.GetStringContent(body));
@@ -186,6 +187,45 @@ namespace Visma.Timelogger.Api.Test.Integration
             var responseString = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<ValidationErrorDto>(responseString, options);
             Assert.That(result.Message.Equals("Invalid request"));
+        }
+
+        [Test]
+        public async Task GivenValidRequest_GetProjectOverview_Returns200()
+        {
+            var client = _factory.GetAnonymousClient();
+            client.DefaultRequestHeaders.Add("User", "freelancer1");
+
+            var response = await client.GetAsync($"/api/Projects/GetProjectOverview/{TestData.ActiveProject.Id}");
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.OK));
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<ProjectOverviewViewModel>(responseString, options);
+            Assert.That(result.Id.Equals(TestData.ActiveProject.Id));
+        }
+
+        [Test]
+        public async Task GivenInvalidRequest_GetProjectOverview_Returns400()
+        {
+            var client = _factory.GetAnonymousClient();
+            client.DefaultRequestHeaders.Add("User", "freelancer1");
+
+            var response = await client.GetAsync($"/api/Projects/GetProjectOverview/{Guid.Empty}");
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.BadRequest));
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<ValidationErrorDto>(responseString, options);
+            Assert.That(result.Message.Equals("Invalid request"));
+        }
+
+        [Test]
+        public async Task GivenInvalidProjectId_GetProjectOverview_Returns400()
+        {
+            var client = _factory.GetAnonymousClient();
+            client.DefaultRequestHeaders.Add("User", "freelancer1");
+            Guid invalidProjectId = Guid.NewGuid();
+            var response = await client.GetAsync($"/api/Projects/GetProjectOverview/{invalidProjectId}");
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.BadRequest));
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<ErrorDto>(responseString, options);
+            Assert.That(result.Message.Equals($"Cannot find Project {invalidProjectId} for Freelancer {TestData.FreelancerId}."));
         }
     }
 }

@@ -9,5 +9,6 @@
         public DateTime Deadline { get; set; }
         public List<TimeRecord> TimeRecords { get; set; } = new List<TimeRecord>();
         public bool IsActive { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

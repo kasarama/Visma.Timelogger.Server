@@ -8,7 +8,7 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
         {
             var required = "{PropertyName} is required.";
 
-            RuleFor(c => c.FreelancerId).NotEmpty().WithMessage(required);
+            RuleFor(c => c.UserId).NotEmpty().WithMessage("Freelancer Id is required.");
             RuleFor(c => c.ProjectId).NotEmpty().WithMessage(required);
             RuleFor(c => c.StartTime).NotEmpty().WithMessage(required);
             RuleFor(c => c.DurationMinutes).NotEmpty().WithMessage(required)

@@ -44,8 +44,8 @@ namespace Visma.Timelogger.Api.Test.Integration.Base
                     var scopedServices = scope.ServiceProvider;
                     var _context = scopedServices.GetRequiredService<ProjectDbContext>();
                     _context.Database.EnsureCreated();
-                    _context.Projects.Add(TestData.ActiveProject());
-                    _context.Projects.Add(TestData.InactiveProject());
+                    _context.Projects.Add(TestData.ActiveProject);
+                    _context.Projects.Add(TestData.InactiveProject);
                     _context.SaveChanges();
                 }
             });

@@ -66,7 +66,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
                 DurationMinutes = 100,
                 ProjectId = project.Id,
                 FreelancerId = project.FreelancerId,
-                StartTime = DateTime.UtcNow,
+                StartTime = DateTime.UtcNow.Date,
             };
             project.TimeRecords.Add(tr);
 
@@ -74,7 +74,31 @@ namespace Visma.Timelogger.Persistence.Test.Integration
 
             var updated = _context.Projects.Where(e => e.Id == project.Id).FirstOrDefault();
             Assert.That(updated.Id.Equals(project.Id));
-            Assert.That(updated.TimeRecords.Find(t=>t.Id == tr.Id).Id.Equals(tr.Id));
+            Assert.That(updated.TimeRecords.Find(t => t.Id == tr.Id).Id.Equals(tr.Id));
+        }
+
+        [Test]
+        public async Task GivenValidData_GetByProjectIdForFreelancerAsync_ReturnsProject()
+        {
+            var result = await _SUT.GetByIdForFreelancerAsync(TestData.InactiveProjectId, TestData.FreelancerId);
+            Assert.That(result != null);
+            Assert.That(!result.IsActive);
+            Assert.That(result.Id.Equals(TestData.InactiveProjectId));
+            Assert.That(result.FreelancerId.Equals(TestData.FreelancerId));
+        }
+
+        [Test]
+        public async Task GivenInValidProjectId_GetByProjectIdForFreelancerAsync_ReturnsNull()
+        {
+            var result = await _SUT.GetByIdForFreelancerAsync(Guid.NewGuid(), TestData.FreelancerId);
+            Assert.That(result == null);
+        }
+
+        [Test]
+        public async Task GivenInValidUserId_GetByProjectIdForFreelancerAsync_ReturnsNull()
+        {
+            var result = await _SUT.GetByIdForFreelancerAsync(TestData.InactiveProjectId, Guid.NewGuid());
+            Assert.That(result == null);
         }
     }
 }

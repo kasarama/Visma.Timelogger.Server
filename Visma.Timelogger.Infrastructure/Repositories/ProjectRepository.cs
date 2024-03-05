@@ -29,6 +29,14 @@ namespace Visma.Timelogger.Persistence.Repositories
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<Project?> GetByIdForFreelancerAsync(Guid projectId, Guid freelancerId)
+        {
+            var result = _dbContext.Projects
+                            .Where(p => (p.Id == projectId && p.FreelancerId == freelancerId))
+                            .Include(p => p.TimeRecords);
+            return await result.FirstOrDefaultAsync();
+        }
     }
 
 }
