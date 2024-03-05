@@ -12,11 +12,13 @@ namespace Visma.Timelogger.Persistence
         }
         public DbSet<Project> Projects { get; set; }
         public DbSet<TimeRecord> TimeRecords { get; set; }
+        public DbSet<DomainEvent> DomainEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ProjectEntityConfiguration());
             modelBuilder.ApplyConfiguration(new TimeRecordEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DomainEventEntityConfiguration());
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
                 List<TimeRecord> timeRecords = DevTestData.TestData.Item2;
