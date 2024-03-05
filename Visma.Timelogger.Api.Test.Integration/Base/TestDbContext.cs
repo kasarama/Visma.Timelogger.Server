@@ -19,8 +19,8 @@ namespace Visma.Timelogger.Api.Test.Integration.Base
 
         private void SeedData(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Project>().HasData(TestData.ActiveProject());
-            modelBuilder.Entity<Project>().HasData(TestData.InactiveProject());
+            modelBuilder.Entity<Project>().HasData(TestData.ActiveProject);
+            modelBuilder.Entity<Project>().HasData(TestData.InactiveProject);
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Logging;
 using Visma.Timelogger.Domain.Entities;
 using Visma.Timelogger.Persistence.EntityConfigurations;
 
@@ -21,11 +19,11 @@ namespace Visma.Timelogger.Persistence
             modelBuilder.ApplyConfiguration(new TimeRecordEntityConfiguration());
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                var pro = DevTestData.TestData.Item1;
-                var tim = DevTestData.TestData.Item2;
+                List<TimeRecord> timeRecords = DevTestData.TestData.Item2;
+                Project[] projects = DevTestData.TestData.Item1;
 
-                modelBuilder.Entity<Project>().HasData(pro);                modelBuilder.Entity<TimeRecord>().HasData(tim);
-
+                modelBuilder.Entity<Project>().HasData(projects);
+                modelBuilder.Entity<TimeRecord>().HasData(timeRecords);
             };
         }
     }

@@ -2,6 +2,7 @@
 using Moq;
 using Visma.Timelogger.Application.Exceptions;
 using Visma.Timelogger.Application.Features.CreateTimeRecord;
+using Visma.Timelogger.Application.Features.GetProjectOverview;
 using Visma.Timelogger.Application.RequestModels;
 using Visma.Timelogger.Application.Services;
 
@@ -99,6 +100,45 @@ namespace Visma.Timelogger.Application.Test.Unit.Services
             Assert.That(exception.ValidationErrors.Contains("Project Id is required."));
             Assert.That(exception.ValidationErrors.Contains("Duration Minutes is required."));
             Assert.That(exception.ValidationErrors.Contains("Start Time is required."));
+        }
+
+        [Test]
+        public async Task GivenValidGetProjectOverviewQuery_WhenValidateRequest_ReturnsTrue()
+        {
+            var userId = Guid.NewGuid();
+            var projectId = Guid.NewGuid();
+            
+            GetProjectOverviewQuery request = new GetProjectOverviewQuery(projectId, userId);
+            GetProjectOverviewQueryValidator validator = new GetProjectOverviewQueryValidator();
+
+            var result = await _SUT.ValidateRequest(request, validator, request.RequestId);
+            Assert.True(result);
+        }
+
+        [Test]
+        public void GivenInvalidProjectId_WhenValidateRequest_ThrowsException()
+        {
+            var userId = Guid.NewGuid();
+            var projectId = Guid.NewGuid();
+
+            GetProjectOverviewQuery request = new GetProjectOverviewQuery(Guid.Empty, userId);
+            GetProjectOverviewQueryValidator validator = new GetProjectOverviewQueryValidator();
+
+            var exception = Assert.ThrowsAsync<RequestValidationException>(async () => await _SUT.ValidateRequest(request, validator, request.RequestId));
+            Assert.That(exception.ValidationErrors.Contains("Project Id is required.")); ;
+        }
+
+        [Test]
+        public void GivenInvalidUserId_WhenValidateRequest_ThrowsException()
+        {
+            var userId = Guid.NewGuid();
+            var projectId = Guid.NewGuid();
+
+            GetProjectOverviewQuery request = new GetProjectOverviewQuery(projectId, Guid.Empty);
+            GetProjectOverviewQueryValidator validator = new GetProjectOverviewQueryValidator();
+
+            var exception = Assert.ThrowsAsync<RequestValidationException>(async () => await _SUT.ValidateRequest(request, validator, request.RequestId));
+            Assert.That(exception.ValidationErrors.Contains("Freelancer Id is required."));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Visma.Timelogger.Persistence.Repositories
         public async Task<Project?> GetActiveByProjectIdForFreelancerAsync(Guid projectId, Guid freelancerId)
         {
             var result = await _dbContext.Projects
-                            .Where(p => p.IsActive == true && p.Id == projectId && p.FreelancerId == freelancerId)
+                            .Where(p => p.IsActive && p.Id == projectId && p.FreelancerId == freelancerId)
                             .Include(p => p.TimeRecords)
                             .FirstOrDefaultAsync();
             return result;
