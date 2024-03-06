@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "dec13c31-b8e8-496f-96cc-af597aa7f29c",
+		"name": "Visma.TimeLogger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12830793"
+	},
+	"item": [
+		{
+			"name": "GetListProjectOverview",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "User",
+						"value": "freelancer2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5105/api/Projects/GetListProjectOverview",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5105",
+					"path": [
+						"api",
+						"Projects",
+						"GetListProjectOverview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTimeRecord",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User",
+						"value": "freelancer2",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"projectId\": \"dce96495-d7f1-452f-b8ce-d8fe72b3f896\",\r\n  \"startTime\": \"2024-03-03\",\r\n  \"durationMinutes\": 360\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5105/api/Projects/CreateTimeRecord",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5105",
+					"path": [
+						"api",
+						"Projects",
+						"CreateTimeRecord"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetProjectOverview/{id]",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "User",
+						"value": "freelancer2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5105/api/Projects/GetProjectOverview/{{$guid}}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5105",
+					"path": [
+						"api",
+						"Projects",
+						"GetProjectOverview",
+						"{{$guid}}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
