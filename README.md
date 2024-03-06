@@ -26,11 +26,18 @@ Based on the presented User Stories, at least two subdomains can be distinguishe
 
 To run this project you will need both .NET Core v7.0 installed on your environment.
 
-Server - `dotnet restore` - to restore nuget packages, `dotnet build` - to build the solution, `cd Visma.Timelogger.Api && dotnet run` - starts a server on http://localhost:5105. You can download Visual Studio Code. The project was tested on Windows 10.
+Server - `dotnet restore` - to restore Nuget packages, `dotnet build` - to build the solution, `cd Visma.Timelogger.Api && dotnet run` - starts a server on http://localhost:5105. You can download Visual Studio Code. The project was tested on Windows 10.
 
-The server solution contains an API with both a basic Entity Framework in-memory context that acts as a database and  the SqlServer. You can switch between them in [PersistenceServiceRegistration](https://github.com/kasarama/Visma.Timelogger.Server/blob/b8209677d9e75aca6e7db0700b1ff3e447458d99/Visma.Timelogger.Infrastructure/PersistenceServiceRegistration.cs#L13).
+The server solution contains an API with both: the basic Entity Framework in-memory context that acts as a database and the SqlServer. You can switch between them in [PersistenceServiceRegistration](https://github.com/kasarama/Visma.Timelogger.Server/blob/b8209677d9e75aca6e7db0700b1ff3e447458d99/Visma.Timelogger.Infrastructure/PersistenceServiceRegistration.cs#L13).
 
 To run SqlServer run `docker-compose up -d`. It will start SqlServer at port 14433 and RabbitMQ on its default ports (15672).
 
 On the branch 'feature_eventbus' is added the implementation of Publishing to the broker. You may or may not start the RabbitMQ service - the service's unavailability is handled.
 
+The collection of valid HTTP requests is in this [json file](https://github.com/kasarama/Visma.Timelogger.Server/blob/dev/Visma.TimeLogger.postman_collection.json). Although the test data is generated randomly at application start, so check available projects for a chosen freelancer with the `Project/AllProjects` request
+To mimic the authorization process a [middleware](Visma.Timelogger.Api/Middleware/AuthorizationMiddleware.cs) checks the `User`header. The valid User header values are :
+ - `freelancer1`
+ - `freelancer2`
+ - `customer2`
+ - `customer1`
+   
