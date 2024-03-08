@@ -48,6 +48,7 @@ namespace Visma.Timelogger.Api.Middleware
                 default:
                     httpStatusCode = HttpStatusCode.InternalServerError;
                     result = JsonSerializer.Serialize(new ErrorDto("Internal server error", 500));
+                    _logger.LogError("Unhandled Exception: \n{ex}", exception);
                     break;
             }
 

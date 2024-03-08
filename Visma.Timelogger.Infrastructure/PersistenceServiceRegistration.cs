@@ -14,6 +14,7 @@ namespace Visma.Timelogger.Persistence
             //     options.UseSqlServer(configuration.GetConnectionString("MMSQLConnectionString")));
                      options.UseInMemoryDatabase("projects"));
 
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IProjectRepository, ProjectRepository>();
             return services;
         }

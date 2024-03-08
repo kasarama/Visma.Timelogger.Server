@@ -13,6 +13,8 @@ namespace Visma.Timelogger.Persistence.Test.Integration
         {
             modelBuilder.ApplyConfiguration(new ProjectEntityConfiguration());
             modelBuilder.ApplyConfiguration(new TimeRecordEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new DomainEventEntityConfiguration());
+
             SeedData(modelBuilder);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Visma.Timelogger.Api.Middleware;
 using Visma.Timelogger.Application;
 using Visma.Timelogger.Persistence;
+using Visma.Timelogger.EventBus;
 
 namespace Visma.Timelogger.Api
 {
@@ -10,6 +11,7 @@ namespace Visma.Timelogger.Api
         {
             builder.Services.AddApplicationServices();
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddEventBusServices(builder.Configuration);
 
 
             builder.Services.AddControllers();
