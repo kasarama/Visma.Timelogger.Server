@@ -15,8 +15,6 @@ namespace Visma.Timelogger.Api.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            var x = context.Request.Headers;
-
             if (!context.Request.Headers.TryGetValue("User", out var accessToken))
             {
                 _logger.LogWarning("Header 'Authorization' is missing from IP: {ip}.", context.Connection.RemoteIpAddress);
