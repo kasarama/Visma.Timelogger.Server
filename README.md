@@ -34,3 +34,10 @@ To run SqlServer run `docker-compose up -d`. It will start SqlServer at port 144
 
 On the branch 'feature_eventbus' is added the implementation of Publishing to the broker. You may or may not start the RabbitMQ service - the service's unavailability is handled.
 
+The collection of valid HTTP requests is in this [json file](https://github.com/kasarama/Visma.Timelogger.Server/blob/dev/Visma.TimeLogger.postman_collection.json). Although the test data is generated randomly at application start, so check available projects for a chosen freelancer with the `Project/AllProjects` request
+To mimic the authorization process a [middleware](Visma.Timelogger.Api/Middleware/AuthorizationMiddleware.cs) checks the `User`header. The valid User header values are :
+ - `freelancer1`
+ - `freelancer2`
+ - `customer2`
+ - `customer1`
+

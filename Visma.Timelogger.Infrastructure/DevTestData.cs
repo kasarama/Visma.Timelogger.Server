@@ -16,9 +16,9 @@ namespace Visma.Timelogger.Persistence
             var customerId1 = Guid.Parse("671758F5-320D-4D1C-8C1A-54CDC55F2F75");
             var customerId2 = Guid.Parse("AE1E5C8E-7106-401A-A51F-FBEC70972DEE");
 
-            int projectQuantity = 10;
+            int projectQuantity = 310;
 
-            const string chars = "AB CD EFGH IJKLMN  OPQ RSTUV WX YZ  ";
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ  ";
 
             Project[] projects = new Project[projectQuantity];
 
@@ -26,19 +26,20 @@ namespace Visma.Timelogger.Persistence
             for (int i = 0; i < projectQuantity; i++)
             {
                 DateTime startDate = DateTime.UtcNow.AddDays(rnd.Next(-50, 2)).Date;
+                DateTime deadline = startDate.AddDays(rnd.Next(5, 100));
                 Project project = new Project()
                 {
                     Id = Guid.NewGuid(),
                     CustomerId = rnd.Next(1, 3) % 2 == 0 ? customerId1 : customerId2,
                     FreelancerId = rnd.Next(1, 3) % 2 == 0 ? freelancerId1 : freelancerId2,
                     StartTime = startDate,
-                    Deadline = startDate.AddDays(rnd.Next(5, 100)),
-                    IsActive = rnd.Next(1, 3) % 2 == 0 ? false : true,
+                    Deadline = deadline,
+                    IsActive = (DateTime.UtcNow.Date < deadline),
                     Name = new string(Enumerable.Repeat(chars, 10)
                     .Select(s => s[rnd.Next(s.Length)]).ToArray())
                 };
 
-                for (int j = 0; j < rnd.Next(0, 10); j++)
+                for (int j = 0; j < rnd.Next(0, 100); j++)
                 {
                     TimeRecord record = new TimeRecord()
                     {

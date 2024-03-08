@@ -13,6 +13,17 @@ namespace Visma.Timelogger.Api
 
 
             builder.Services.AddControllers();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "dev policy",
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod()
+                                            .AllowCredentials();
+                                  });
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -27,6 +38,7 @@ namespace Visma.Timelogger.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("dev policy");
 
             app.UseHttpsRedirection();
 
