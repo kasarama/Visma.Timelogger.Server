@@ -63,6 +63,7 @@ namespace Visma.Timelogger.Persistence.Test.Integration
             var project = _context.Projects.First();
             TimeRecord tr = new TimeRecord()
             {
+                Id = Guid.NewGuid(),
                 DurationMinutes = 100,
                 ProjectId = project.Id,
                 FreelancerId = project.FreelancerId,

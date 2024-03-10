@@ -41,9 +41,9 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
             TimeRecord timeRecord = _mapper.Map<TimeRecord>(request);
             project.TimeRecords.Add(timeRecord);
 
-            var result = await _projectRepository.AddTimeRecordAsync(project);
+            await _projectRepository.AddTimeRecordAsync(project);
 
-            return result;
+            return timeRecord.Id;
         }
 
         public async Task<Project> ProjectExists(CreateTimeRecordCommand request)

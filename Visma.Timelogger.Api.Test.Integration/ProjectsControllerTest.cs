@@ -58,7 +58,7 @@ namespace Visma.Timelogger.Api.Test.Integration
         }
 
         [Test]
-        public async Task GivenValidRequest_CreateTimeRecord_Returns201()
+        public async Task GivenValidRequest_CreateTimeRecord_ReturnsGuid()
         {
             var client = _factory.GetAnonymousClient();
             client.DefaultRequestHeaders.Add("User", "freelancer1");
@@ -71,7 +71,11 @@ namespace Visma.Timelogger.Api.Test.Integration
             };
 
             var response = await client.PostAsync("/api/Projects/CreateTimeRecord", ContentHelper.GetStringContent(body));
-            Assert.That(response.StatusCode.Equals(HttpStatusCode.Created));
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.OK));
+            var responseString = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<Guid>(responseString, options);
+            Assert.IsInstanceOf<Guid>(result);
+            Assert.That(result, Is.Not.EqualTo(Guid.Empty));
         }
 
         [Test]

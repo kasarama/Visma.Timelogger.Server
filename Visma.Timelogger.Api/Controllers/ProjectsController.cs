@@ -21,7 +21,7 @@ namespace Visma.Timelogger.Api.Controllers
         }
 
         [HttpPost("CreateTimeRecord", Name = "Create Time Record")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -29,7 +29,7 @@ namespace Visma.Timelogger.Api.Controllers
         {
             Guid userId = (Guid)HttpContext.Items["UserId"];
             Guid result = await _mediator.Send(new CreateTimeRecordCommand(request, userId));
-            return StatusCode(201);
+            return Ok(result);
         }
 
         [HttpGet("GetProjectOverview/{projectId}", Name = "Get Overview Of Project With Time Registrations")]

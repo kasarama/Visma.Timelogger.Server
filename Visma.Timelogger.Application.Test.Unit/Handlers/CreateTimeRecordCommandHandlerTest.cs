@@ -201,6 +201,16 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             };
             CreateTimeRecordCommand request = new CreateTimeRecordCommand(requestModel, userId);
 
+            TimeRecord entity = new TimeRecord()
+            {
+                Id = timeRecordId,
+                ProjectId = projectId,
+                DurationMinutes = duration,
+                StartTime = startTime, 
+                FreelancerId = userId
+            };
+                 
+
 
             _projectRepositoryMock.Setup(repo => repo
                 .GetActiveByProjectIdForFreelancerAsync(request.ProjectId, request.UserId))
@@ -212,14 +222,14 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
 
             _mapperMock.Setup(mapper => mapper
                 .Map<TimeRecord>(request))
-                .Returns(It.IsAny<TimeRecord>());
+                .Returns(entity);
 
             _projectRepositoryMock.Setup(repo => repo
-                .AddTimeRecordAsync(It.IsAny<Project>())).ReturnsAsync(timeRecordId);
+                .AddTimeRecordAsync(It.IsAny<Project>())).Verifiable();
 
             var result = await _SUT.Handle(request, CancellationToken.None);
 
-            Assert.AreEqual(timeRecordId, result);
+            Assert.That(result, Is.EqualTo(timeRecordId));
             _validatorMock.Verify(val => val
                  .ValidateRequest(request, It.IsAny<AbstractValidator<CreateTimeRecordCommand>>(), request.RequestId), Times.Once);
             _projectRepositoryMock
