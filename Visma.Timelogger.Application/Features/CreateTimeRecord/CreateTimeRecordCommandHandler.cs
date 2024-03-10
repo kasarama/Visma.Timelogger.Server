@@ -8,7 +8,7 @@ using Visma.Timelogger.Domain.Entities;
 
 namespace Visma.Timelogger.Application.Features.CreateTimeRecord
 {
-    public class CreateTimeRecordCommandHandler : IRequestHandler<CreateTimeRecordCommand, bool>
+    public class CreateTimeRecordCommandHandler : IRequestHandler<CreateTimeRecordCommand, Guid>
     {
         private readonly ILogger<CreateTimeRecordCommandHandler> _logger;
         private readonly AbstractValidator<CreateTimeRecordCommand> _requestValidator;
@@ -29,7 +29,7 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(CreateTimeRecordCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateTimeRecordCommand request, CancellationToken cancellationToken)
         {
             await _validator.ValidateRequest(request, _requestValidator, request.RequestId);
 
@@ -43,7 +43,7 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
 
             await _projectRepository.AddTimeRecordAsync(project);
 
-            return true;
+            return timeRecord.Id;
         }
 
         public async Task<Project> ProjectExists(CreateTimeRecordCommand request)

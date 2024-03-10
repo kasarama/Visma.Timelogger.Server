@@ -2,7 +2,7 @@
 
 namespace Visma.Timelogger.Application.Features.CreateTimeRecord
 {
-    public class CreateTimeRecordCommand : Message<bool>
+    public class CreateTimeRecordCommand : Message<Guid>
     {
         public Guid ProjectId { get; set; }
         public DateTime StartTime { get; set; }

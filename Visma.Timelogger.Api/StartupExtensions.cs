@@ -18,7 +18,10 @@ namespace Visma.Timelogger.Api
                 options.AddPolicy(name: "dev policy",
                                   policy =>
                                   {
-                                      policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                                      policy.WithOrigins("http://localhost:3000",
+                                                          "http://localhost:3001",
+                                                          "http://localhost:3002",
+                                                          "http://localhost:3003")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod()
                                             .AllowCredentials();
