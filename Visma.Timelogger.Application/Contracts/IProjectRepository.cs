@@ -2,7 +2,7 @@
 
 namespace Visma.Timelogger.Application.Contracts
 {
-    public interface IProjectRepository
+    public interface IProjectRepository : IAsyncRepository<Project>
     {
         Task<Project?> GetByIdForFreelancerAsync(Guid projectId, Guid freelancerId);
         Task<Project?> GetActiveByProjectIdForFreelancerAsync(Guid projectId, Guid freelancerId);

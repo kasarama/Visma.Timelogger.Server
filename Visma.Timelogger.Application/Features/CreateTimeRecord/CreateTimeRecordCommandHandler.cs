@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Visma.Timelogger.Application.Contracts;
+using Visma.Timelogger.Application.Events.Pub;
 using Visma.Timelogger.Application.Exceptions;
 using Visma.Timelogger.Domain.Entities;
 
@@ -14,18 +15,21 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
         private readonly AbstractValidator<CreateTimeRecordCommand> _requestValidator;
         private readonly IApiRequestValidator _validator;
         private readonly IProjectRepository _projectRepository;
+        private readonly IEventBusService _eventBusService;
         private readonly IMapper _mapper;
 
         public CreateTimeRecordCommandHandler(ILogger<CreateTimeRecordCommandHandler> logger,
                                               AbstractValidator<CreateTimeRecordCommand> commandValidator,
                                               IApiRequestValidator validator,
                                               IProjectRepository projectRepository,
+                                              IEventBusService eventBusService,
                                               IMapper mapper)
         {
             _logger = logger;
             _requestValidator = commandValidator;
             _validator = validator;
             _projectRepository = projectRepository;
+            _eventBusService = eventBusService;
             _mapper = mapper;
         }
 
@@ -42,6 +46,9 @@ namespace Visma.Timelogger.Application.Features.CreateTimeRecord
             project.TimeRecords.Add(timeRecord);
 
             await _projectRepository.AddTimeRecordAsync(project);
+
+            TimeRecordCreatedEvent @event = _mapper.Map<TimeRecordCreatedEvent>(timeRecord);
+            await _eventBusService.PublishEvent(@event);
 
             return timeRecord.Id;
         }

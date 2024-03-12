@@ -16,7 +16,10 @@ namespace Visma.Timelogger.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddScoped<IApiRequestValidator, HandlerService>();
+            services.AddScoped<IApiRequestValidator, ApiRequestValidator>();
+            services.AddScoped<IEventBusService, EventBusService>();
+
+            //request validators
             services.AddScoped<AbstractValidator<CreateTimeRecordCommand>, CreateTimeRecordCommandValidator>();
             services.AddScoped<AbstractValidator<GetProjectOverviewQuery>, GetProjectOverviewQueryValidator>();
             services.AddScoped<AbstractValidator<GetListProjectOverviewQuery>, GetListProjectOverviewQueryValidator>();

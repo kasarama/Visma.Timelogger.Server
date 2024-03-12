@@ -19,6 +19,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
         private Mock<IApiRequestValidator> _validatorMock;
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IMapper> _mapperMock;
+        private Mock<IEventBusService> _eventBusServiceMock;
         private Project _existingProject;
         private DateTime _now = DateTime.UtcNow.Date;
 
@@ -29,6 +30,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
             _commandValidator = new Mock<AbstractValidator<CreateTimeRecordCommand>>();
             _validatorMock = new Mock<IApiRequestValidator>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
+            _eventBusServiceMock = new Mock<IEventBusService>();
             _mapperMock = new Mock<IMapper>();
             _existingProject = new Project()
             {
@@ -45,6 +47,7 @@ namespace Visma.Timelogger.Application.Test.Unit.Handlers
                 _commandValidator.Object,
                 _validatorMock.Object,
                 _projectRepositoryMock.Object,
+                _eventBusServiceMock.Object,
                 _mapperMock.Object
             );
         }
