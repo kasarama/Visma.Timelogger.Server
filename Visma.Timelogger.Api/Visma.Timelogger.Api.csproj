@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Visma.Timelogger.Application\Visma.Timelogger.Application.csproj" />
+    <ProjectReference Include="..\Visma.Timelogger.EventBus\Visma.Timelogger.EventBus.csproj" />
     <ProjectReference Include="..\Visma.Timelogger.Infrastructure\Visma.Timelogger.Persistence.csproj" />
   </ItemGroup>
 

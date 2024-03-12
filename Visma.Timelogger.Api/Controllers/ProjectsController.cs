@@ -55,6 +55,5 @@ namespace Visma.Timelogger.Api.Controllers
             List<ProjectOverviewViewModel> result = await _mediator.Send(new GetListProjectOverviewQuery(userId));
             return Ok(result);
         }
-
     }
 }

@@ -10,15 +10,15 @@ namespace Visma.Timelogger.Application.Test.Unit.Services
 {
     public class HandlerServiceTest
     {
-        private HandlerService _SUT;
-        private Mock<ILogger<HandlerService>> _loggerMock;
+        private ApiRequestValidator _SUT;
+        private Mock<ILogger<ApiRequestValidator>> _loggerMock;
         private readonly DateTime _now = DateTime.UtcNow.Date;
 
         [SetUp]
         public void Setup()
         {
-            _loggerMock = new Mock<ILogger<HandlerService>>();
-            _SUT = new HandlerService(_loggerMock.Object);
+            _loggerMock = new Mock<ILogger<ApiRequestValidator>>();
+            _SUT = new ApiRequestValidator(_loggerMock.Object);
         }
 
         [Test]

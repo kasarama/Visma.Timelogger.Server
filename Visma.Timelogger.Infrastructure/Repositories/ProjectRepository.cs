@@ -4,13 +4,10 @@ using Visma.Timelogger.Domain.Entities;
 
 namespace Visma.Timelogger.Persistence.Repositories
 {
-    public class ProjectRepository : IProjectRepository
+    public class ProjectRepository : BaseRepository<Project>, IProjectRepository
     {
-        protected readonly ProjectDbContext _dbContext;
-
-        public ProjectRepository(ProjectDbContext dbContext)
+        public ProjectRepository(ProjectDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
         }
 
         public async Task<Project?> GetActiveByProjectIdForFreelancerAsync(Guid projectId, Guid freelancerId)
@@ -29,7 +26,6 @@ namespace Visma.Timelogger.Persistence.Repositories
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
-
         public async Task<Project?> GetByIdForFreelancerAsync(Guid projectId, Guid freelancerId)
         {
             var result = _dbContext.Projects
